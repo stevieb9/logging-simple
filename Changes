@@ -1,9 +1,16 @@
-Revision history for Perl extension Log::Basic.
+Revision history for Perl extension Log::Simple
 
-1.0  Wed Feb 17 11:15:00 2016
-	- add basic functions
-	
-0.01  Wed Feb 17 11:47:52 2016
-	- original version; created by h2xs 1.23 with options
-		-AX -n Log::Basic
+0.01    20160315
+        - initial version
+        - cloned (manually) from Log::Basic and renamed to Log::Simple
+        - added file() and level() methods
+        - renamed now() to time()
+        - added tests for load and init
+        - added tests for file()
+        - file() with a param of 0 (zero), closes the current handle
+        - limit param and method can take either the partial name of the level,
+          or the appropriate integer
+        - file() now acts appropriately if no filename is sent in
+        - added labels(), returns the list of level mappings
+        - added display(), allows selecting various tags in print output
 

@@ -1,14 +1,35 @@
-use 5.020002;
+use 5.008;
+use strict;
+use warnings;
 use ExtUtils::MakeMaker;
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
+
 WriteMakefile(
-    NAME              => 'Log::Basic',
-    VERSION_FROM      => 'lib/Log/Basic.pm', # finds $VERSION, requires EU::MM from perl >= 5.5
-    PREREQ_PM         => {}, # e.g., Module::Name => 1.1
-    ABSTRACT_FROM     => 'lib/Log/Basic.pm', # retrieve abstract from module
-    AUTHOR            => 'Kévin Gravouil <kgravouil@>',
-    #LICENSE           => 'perl',
-    #Value must be from legacy list of licenses here
-    #http://search.cpan.org/perldoc?Module%3A%3ABuild%3A%3AAPI
+    NAME             => 'Log::Simple',
+    AUTHOR           => q{Steve Bertrand <steveb@cpan.org>},
+    VERSION_FROM     => 'lib/Log/Simple.pm',
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        resources   => {
+            bugtracker => {
+                web => 'https://github.com/stevieb9/p5-log-simple/issues',
+            },
+            repository => {
+                type => 'git',
+                url => 'https://github.com/stevieb9/p5-log-simple.git',
+                web => 'https://github.com/stevieb9/p5-log-simple',
+            },
+        },
+    },
+    ABSTRACT_FROM    => 'lib/Log/Simple.pm',
+    LICENSE          => 'perl_5',
+    PL_FILES         => {},
+    MIN_PERL_VERSION => 5.008,
+    CONFIGURE_REQUIRES => {
+    },
+    BUILD_REQUIRES => {
+    },
+    PREREQ_PM => {
+    },
+    dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
+    clean => { FILES => 'File-Edit-Portable-*' },
 );

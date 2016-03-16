@@ -1,9 +1,12 @@
 Changes
-lib/Log/Basic.pm
+lib/Log/Simple.pm
 Makefile.PL
 MANIFEST			This list of files
-README
-README.md
-t/Log-Basic.t
-META.yml                                 Module YAML meta-data (added by MakeMaker)
-META.json                                Module JSON meta-data (added by MakeMaker)
+MANIFEST.SKIP
+t/0-00_load.t
+t/0-01_init.t
+t/01-file.t
+t/02-timestamp.t
+t/03-output.t
+t/04-labels.t
+t/05-display.pm
