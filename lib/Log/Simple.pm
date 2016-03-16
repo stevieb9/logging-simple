@@ -214,6 +214,10 @@ __END__
 
 Log::Simple - Perl extension for simple logging.
 
+=for html
+<a href="http://travis-ci.org/stevieb9/p5-log-simple"><img src="https://secure.travis-ci.org/stevieb9/p5-log-simple.png"/>
+<a href='https://coveralls.io/github/stevieb9/p5-log-simple?branch=master'><img src='https://coveralls.io/repos/stevieb9/p5-log-simple/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
+
 =head1 SYNOPSIS
 
   perl -MLog::Simple -e 'info "hey"'
