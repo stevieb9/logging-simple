@@ -16,5 +16,6 @@ Revision history for Perl extension Log::Simple
         - added print(), if disabled, log message will be returned as a string
         - added _build(), helper method to generate the log entry
         - Travis-CI, coveralls.io integration (closes #3)
+        - test files for POD and critic (closes #4)
 
 
