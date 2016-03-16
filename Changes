@@ -13,4 +13,7 @@ Revision history for Perl extension Log::Simple
         - file() now acts appropriately if no filename is sent in
         - added labels(), returns the list of level mappings
         - added display(), allows selecting various tags in print output
+        - added print(), if disabled, log message will be returned as a string
+        - added _build(), helper method to generate the log entry
+
 

@@ -3,7 +3,9 @@ use 5.020002;
 use strict;
 use warnings;
 
-our $VERSION = '0.1';
+use Carp qw(croak);
+
+our $VERSION = '0.01';
 
 sub new {
     my ($class, %args) = @_;
@@ -24,6 +26,8 @@ sub new {
     if ($self->{file}){
         $self->file($self->{file});
     }
+
+    $self->{print} = 1;
 
     $self->{display} = {
         time => 1,
@@ -135,9 +139,38 @@ sub display {
 
     return %{ $self->{display} };
 }
-
+sub print {
+    $_[0]->{print} = $_[1] if defined $_[1];
+    return $_[0]->{print};
+}
 my $VERBOSITY = 5;
 
+sub _build {
+    my $self = shift;
+    my $label = shift;
+
+    my @labels = $self->labels('names');
+
+    if (! grep { $label eq $_ } @labels){
+        croak "_build() requires a label name as its first param\n";
+    }
+
+    my $msg;
+    $msg .= "[".$self->timestamp()."]" if $self->display('time');
+    $msg .= "[$label]" if $self->display('label');
+    $msg .= "[pid:$$]" if $self->display('pid');
+    $msg .= "[proc:]" if $self->display('proc');
+    $msg .= " @_\n";
+
+    return $msg if ! $self->print;
+
+    if ($self->{fh}){
+        print { $self->{fh} } $msg;
+    }
+    else {
+        print $msg;
+    }
+}
 sub debug {
     my $self = shift;
     print "[".$self->timestamp()."]" if $self->display('time');

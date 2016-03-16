@@ -3,6 +3,7 @@ lib/Log/Simple.pm
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
+README
 t/0-00_load.t
 t/0-01_init.t
 t/01-file.t
@@ -10,3 +11,5 @@ t/02-timestamp.t
 t/03-output.t
 t/04-labels.t
 t/05-display.pm
+t/05-display.t
+t/06-print.t
