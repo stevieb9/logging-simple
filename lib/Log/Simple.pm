@@ -7,6 +7,21 @@ use Carp qw(croak);
 
 our $VERSION = '0.01';
 
+BEGIN {
+
+    my @labels = qw(emergency alert critical error warning notice info debug);
+    my @short = qw(emerg crit err warn);
+
+    {
+        no strict 'refs';
+        for (@labels, @short) {
+            *$_ = sub {
+                my ($self, $msg) = @_;
+                $self->_build($_, $msg);
+            }
+        }
+    }
+}
 sub new {
     my ($class, %args) = @_;
 
@@ -54,7 +69,7 @@ sub level {
             $self->{display_level} = "$rev{$l_name}:$l_name";
         }
         else {
-            warn "invalid level specified, using default 'warning' (4)\n";
+            CORE::warn "invalid level specified, using default 'warning' (4)\n";
         }
     }
     return $self->{display_level};
@@ -131,7 +146,7 @@ sub display {
     }
     for (keys %tags) {
         if (! defined $self->{display}{$_}) {
-            warn "$_ is an invalid tag...skipping\n";
+            CORE::warn "$_ is an invalid tag...skipping\n";
             next;
         }
         $self->{display}{$_} = $tags{$_};
@@ -143,8 +158,6 @@ sub print {
     $_[0]->{print} = $_[1] if defined $_[1];
     return $_[0]->{print};
 }
-my $VERBOSITY = 5;
-
 sub _build {
     my $self = shift;
     my $label = shift;
@@ -171,14 +184,7 @@ sub _build {
         print $msg;
     }
 }
-sub debug {
-    my $self = shift;
-    print "[".$self->timestamp()."]" if $self->display('time');
-    print "[debug]" if $self->display('label');
-    print "[pid:$$]" if $self->display('pid');
-    print "[proc:]" if $self->display('proc');
-    print " @_\n" if $VERBOSITY > 4;
-}
+__END__
 sub info {
 	print "[info]  [proc:$$] [".timestamp()."] @_\n" if $VERBOSITY > 3;
 	print OUT "[info]  [proc:$$] [".timestamp()."] @_\n" if(fileno(OUT));
