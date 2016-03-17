@@ -98,13 +98,14 @@ sub level {
     my %rev = reverse %levels;
 
     $self->{level} = $ENV{LS_LEVEL} if defined $ENV{LS_LEVEL};
+    my $lvl;
 
     if (defined $level) {
         if ($level =~ /^\d$/ && defined $levels{$level}){
             $self->{level} = $level;
         }
-        elsif ($level =~ /^\w{3}/ && (my ($l_name) = grep /^$level/, keys %rev)){
-            $self->{level} = $rev{$l_name};
+        elsif ($level =~ /^\w{3}/ && defined($lvl = $self->_translate($level))){
+            $self->{level} = $lvl;
         }
         else {
             CORE::warn
@@ -236,7 +237,7 @@ sub _translate {
     else {
         my %rev = reverse %levels;
         my ($lvl) = grep /^$label/, keys %rev;
-        return $lvl;
+        return $rev{$lvl};
     }
 }
 sub _generate_entry {
@@ -281,9 +282,7 @@ sub _level_value {
         return $1;
     }
     else {
-        my %labels = reverse $self->labels;
-        my ($level_name) = grep /^$level/, keys %labels;
-        return $labels{$level_name};
+        return $self->_translate($level);
     }
 }
 
