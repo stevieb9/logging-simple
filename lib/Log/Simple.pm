@@ -76,9 +76,9 @@ sub new {
     $self->print($print);
 
     $self->display(
-            name => 1,
             time  => 1,
             label => 1,
+            name  => 1,
             pid   => 0,
             proc  => 0,
     );
