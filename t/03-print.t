@@ -6,6 +6,8 @@ use File::Temp;
 use Log::Simple;
 use Test::More;
 
+my $mod = 'Log::Simple';
+
 { # set/get
     my $log = Log::Simple->new;
 
@@ -32,6 +34,22 @@ use Test::More;
 
     my $msg = $log->_generate_entry(label => 'debug', msg => 'no print');
     like ($msg, qr/debug.*no print/, "print(0) returns with no print");
+}
+{ # print to STDOUT
+    my $log = $mod->new(display => 0);
+
+    my $out;
+    open my $stdout, '>', \$out or die $!;
+
+    select $stdout;
+
+    $log->_1('test');
+
+    close $stdout;
+
+    select STDOUT;
+
+    is ($out, "test\n", "print prints to STDOUT with no log file");
 }
 
 sub _fname {
