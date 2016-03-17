@@ -27,6 +27,10 @@ can_ok($mod, 'notice');
 can_ok($mod, 'info');
 can_ok($mod, 'debug');
 
+for (qw(_0 _1 _2 _3 _4 _5 _6 _7)){
+    can_ok($mod, $_);
+}
+
 done_testing();
 
 

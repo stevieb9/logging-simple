@@ -10,12 +10,17 @@ our $VERSION = '0.01';
 BEGIN {
     my @labels = qw(emergency alert critical error warning notice info debug);
     my @short = qw(emerg crit err warn);
+    my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
 
     {
         no strict 'refs';
-        for (@labels, @short) {
+
+        for (@labels, @short, @nums) {
             *$_ = sub {
                 my ($self, $msg) = @_;
+                if ($_ =~ /^_(\d)$/){
+                    return if $1 > $self->level();
+                }
                 return if $self->level($_, 1) > $self->level;
                 $self->_build($_, $msg);
             }
