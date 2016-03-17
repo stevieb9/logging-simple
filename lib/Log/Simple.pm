@@ -76,23 +76,7 @@ sub new {
     my $print = defined $args{print} ? $args{print} : 1;
     $self->print($print);
 
-    $self->display(
-            time  => 1,
-            label => 1,
-            name  => 1,
-            pid   => 0,
-            proc  => 0,
-    );
 
-    if (defined $args{display}){
-        $self->display($args{display});
-    }
-
-    $self->name($args{name});
-
-    return $self;
-}
-sub level {
     my ($self, $level) = @_;
 
     my %levels = $self->levels;
@@ -171,15 +155,7 @@ sub levels {
             push @level_list, $levels{$_};
         }
         return @level_list;
-    }
 
-    return %levels;
-}
-sub display {
-    my $self = shift;
-    my ($tag, %tags);
-
-    if (@_ == 1){
         $tag = shift;
     }
     else {
@@ -365,24 +341,140 @@ details.
 
 Verbosity and associated levels are:
 
-=over
+=over 4
 
-=item - level 0, 'emergency|emerg'
-=item - level 1, `alert`
-=item - level 2, `critical|crit`
-=item - level 3, `error|err`
-=item - level 4, `warning|warn`
-=item - level 5, `notice`
-=item - level 6, `info`
-=item - level 7, `debug`
+=item level 0, 'emergency|emerg'
+=item level 1, 'alert'
+=item level 2, 'critical|crit'
+=item level 3, 'error|err'
+=item level 4, 'warning|warn'
+=item level 5, 'notice'
+=item level 6, 'info'
+=item level 7, 'debug'
 
 =back
 
 Note that all named level methods have an associated _N method, so you don't
-have to remember the names at all.
+have to remember the names at all. Using the numbers is often much easier.
 
 Setting the C<level> will display all messages related to that level and below.
 
+=head1 METHODS
+
+=head2 new(%args)
+
+Builds and returns a new C<Log::Simple> object. All arguments are optional, and
+they can all be set using accessor methods after instantiation. These params
+are:
+
+=over 4
+
+=head3 name
+
+Default: undef
+
+Specify a name for your log object. It will be displayed by default in the log
+output. The name of your program or module is a good choice.
+
+=head3 level => Integer
+
+Default: 4
+
+Specify the name or equivalent number (0-7) of the highest level to log. Note
+that this can be set in a C<LS_LEVEL> environment variable (and changed while
+your program is running).
+
+=head3 file => String
+
+Default: undef
+
+The name of a file to write log entries into. By default, we print to STDOUT.
+
+=head3 write_mode => Bool
+
+Default: 'a' (append)
+
+By default, we append to the chosen log file. Send in 'w' or 'write' to
+overwrite instead.
+
+=head3 print => Bool
+
+Default: 1 (enabled)
+
+If a false value is sent in (ie. 0), we'll disable printing the log entries,
+and return them as a string value instead on each call.
+
+=head3 display => Bool
+
+Default: enabled
+
+Send in a false value to disable all log entry tags, less the actual message.
+See C<display()> in L<METHODS> to learn how to enable and disable individual
+tags.
+
+=back
+
+=head2 level(Ingeger)
+
+Set and return the facility level. Will return the current value with a param
+sent in or not. It can be changed at any time. Note that you can set this with
+the C<LS_LEVEL> environment variable, at any time. the next method call
+regardless of what it is will set it appropriately.
+
+=head2 file('file.log', 'mode')
+
+By default, we write to STDOUT. Send in the name of a file to write there
+instead. Mode is optional; we'll append to the file by default. Send in 'w' or
+'write' to overwrite the file.
+
+=head2 display(HASH|Bool)
+
+List of log entry tags, and default printing status:
+    name  => 1, #specified in new() or name()
+    time  => 1,
+    label => 1, # the string value of the level being called
+    pid   => 0, # process ID
+    proc  => 0, # "filename|line number" of the caller
+
+In HASH param mode, send in any or all of the tags with 1 (enable) or 0
+(disable).
+
+You can also send in 1 to enable all of the tags, or 0 to disable them all.
+
+=head2 print(Bool)
+
+Default is enabled. If disabled, we won't print at all, and instead, return the
+log entry as a scalar string value.
+
+=head2 child('name')
+
+This method will create a clone of the existing C<Log::Simple> object, and then
+concatenate the parent's name with the optional name sent in here for easy
+identification in the logs.
+
+All settings employed by the parent will be used in the child, unless explicity
+changed via the methods.
+
+In a module or project, you can create a top-level log object, then in all
+subs, create a child with the sub's name to easily identify flow within the
+log. In an OO project, stuff the parent log into the main object, and clone it
+from there.
+
+=head1 HELPER METHODS
+
+These methods may be handy to the end user, but aren't required for end-use.
+
+=head2 levels('names')
+
+Returns the hash of level_num => level_name mapping.
+
+If the optional string C<names> is sent in, we'll return an array of just the
+names, in numeric order from lowest to highest.
+
+=head2 timestamp
+
+Returns the current time in the following format: C<2016-03-17 17:51:02.241
+>
 
 =head1 AUTHOR
 
