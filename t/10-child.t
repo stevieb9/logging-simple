@@ -6,6 +6,8 @@ use File::Temp;
 use Log::Simple;
 use Test::More;
 
+is (mkdir('t/working'), 1, "created working dir ok");
+
 my $mod = 'Log::Simple';
 
 my $fn = 't/working/append.log';

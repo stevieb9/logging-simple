@@ -58,9 +58,11 @@ for (keys %files){
     }
 }
 for ($f1, $f2, $f3, $f4, $parent, $fn){
-    use File::Copy;
     unlink $_;
     ok (! -e $_, "$_ file unlinked ok");
 }
+
+is (rmdir 't/working', 1, "removed working dir ok");
+
 done_testing();
 
