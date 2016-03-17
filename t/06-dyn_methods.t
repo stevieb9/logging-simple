@@ -17,6 +17,9 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
 
     for (@labels){
         my $msg = $log->$_($_);
+        if ($msg) {
+            like ( $msg, qr/\[$_\] $_/, "$_ has proper msg" );
+        }
         push @msgs, $msg if $msg;
     }
 
@@ -29,6 +32,9 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
 
     for (@short){
         my $msg = $log->$_($_);
+        if ($msg) {
+            like ( $msg, qr/\[$_\] $_/, "$_ has proper msg" );
+        }
         push @msgs, $msg if $msg;
     }
 
@@ -42,6 +48,9 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     for (@nums){
         /^_(\d)$/;
         my $msg = $log->$_($_);
+        if ($msg) {
+            like ( $msg, qr/\[$_\] $_/, "$_ has proper msg" );
+        }
         push @msgs, $msg if $msg;
     }
 
