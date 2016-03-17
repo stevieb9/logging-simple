@@ -1,7 +1,7 @@
 Revision history for Perl extension Log::Simple
 
 0.04    20160316
-        -
+        - add more tests for new(display => 0/1) and display(0/1)
 
 0.03    20160316
         - added tests for _generate_entry() (closes #5)

@@ -69,6 +69,65 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
         like ($msg, qr/env test/, "...and msg is ok");
     }
 }
+{ # output with disabled display() in new()
+    my $log = Log::Simple->new(print => 0, display => 0);
 
+    my $subs = $log->_sub_names;
+
+    for (@$subs){
+        my $lvl = $log->_level_value($_);
+        my $msg = $log->$_('env test');
+        $log->level($lvl);
+        is ($msg, "env test\n", "with new(display => 0), $_ message is ok");
+    }
+}
+{ # output with enabled display() in new()
+    my $log = Log::Simple->new(print => 0, display => 1);
+
+    my $subs = $log->_sub_names;
+
+    for (@$subs){
+        my $lvl = $log->_level_value($_);
+        my $msg = $log->$_('env test');
+        $log->level($lvl);
+
+        like (
+            $msg,
+            qr/(?:\[.*?\]){4} env test/,
+            "with new(display => 1), $_ message is ok"
+        );
+    }
+}
+{ # output with display(0)
+    my $log = Log::Simple->new(print => 0);
+
+    $log->display(0);
+    my $subs = $log->_sub_names;
+
+    for (@$subs){
+        my $lvl = $log->_level_value($_);
+        my $msg = $log->$_('env test');
+        $log->level($lvl);
+        is ($msg, "env test\n", "with display(0), $_ message is ok");
+    }
+}
+{ # output with display(1)
+    my $log = Log::Simple->new(print => 0);
+
+    $log->display(1);
+    my $subs = $log->_sub_names;
+
+    for (@$subs){
+        my $lvl = $log->_level_value($_);
+        my $msg = $log->$_('env test');
+        $log->level($lvl);
+
+        like (
+            $msg,
+            qr/(?:\[.*?\]){4} env test/,
+            "with display(1), $_ message is ok"
+        );
+    }
+}
 done_testing();
 

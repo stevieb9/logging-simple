@@ -94,7 +94,7 @@ sub level {
         }
         else {
             CORE::warn
-                "invalid level ($level) specified, using default 'warning' (4)\n";
+                "invalid level $level specified, using default 'warning'/4\n";
         }
     }
     return $self->{level};
@@ -219,7 +219,8 @@ sub _generate_entry {
     $msg .= "[$label]" if $self->display('label');
     $msg .= "[pid:$$]" if $self->display('pid');
     $msg .= "[proc:]" if $self->display('proc');
-    $msg .= " @_\n";
+    $msg .= " " if $msg;
+    $msg .= "@_\n";
 
     return $msg if ! $self->print;
 
