@@ -1,5 +1,5 @@
 package Log::Simple;
-use 5.020002;
+use 5.002;
 use strict;
 use warnings;
 
