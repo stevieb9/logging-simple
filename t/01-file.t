@@ -56,9 +56,9 @@ my $mod = 'Log::Simple';
     my $log = $mod->new;
     my $fn = $log->file;
 
-    is ($log->{file}, '', "file() with no params doesn't set fname");
+    is ($log->{file}, undef, "file() with no params doesn't set fname");
     is (defined $log->{fh}, '', "file() with no params doesn't set a handle");
-    is ($fn, '', "file() w/ no params returns null if a file isn't set");
+    is ($fn, undef, "file() w/ no params returns undef if a file isn't set");
 
     my $temp = _fname();
     $fn = $log->file($temp);

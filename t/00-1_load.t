@@ -11,8 +11,11 @@ can_ok($mod, 'file');
 can_ok($mod, 'level');
 can_ok($mod, 'labels');
 can_ok($mod, 'display');
-my @labels = qw(emergency alert critical error warning notice info debug);
-my @short = qw(emerg crit err warn);
+can_ok($mod, 'timestamp');
+can_ok($mod, 'print');
+can_ok($mod, '_sub_names');
+can_ok($mod, '_generate_entry');
+can_ok($mod, '_level_value');
 
 can_ok($mod, 'emergency');
 can_ok($mod, 'emerg');

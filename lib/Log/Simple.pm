@@ -10,7 +10,10 @@ our $VERSION = '0.02';
 BEGIN {
 
     sub _sub_names {
-        my @labels = qw(emergency alert critical error warning notice info debug);
+        my @labels = qw(
+            emergency alert critical
+            error warning notice info debug
+        );
         my @short = qw(emerg crit err warn);
         my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
 
@@ -29,10 +32,10 @@ BEGIN {
             *$_ = sub {
                 my ($self, $msg) = @_;
                 if ($_ =~ /^_(\d)$/){
-                    return if $1 > $self->level();
+                    return if $1 > $self->level;
                 }
-                return if $self->level($_, 1) > $self->level;
-                $self->_build($_, $msg);
+                return if $self->_level_value($_) > $self->level;
+                $self->_generate_entry($_, $msg);
             }
         }
     }
@@ -46,47 +49,41 @@ sub new {
         $self->level($args{level});
     }
     else {
-        $self->{level} = 4;
+        $self->level(4);
     }
 
-    $self->{file} = defined $args{file}
-        ? $args{file}
-        : '';
-
-    if ($self->{file}){
-        $self->file($self->{file});
+    if ($args{file}){
+        $self->file($args{file}, $args{write_mode});
     }
 
-    $self->{print} = defined $args{print} ? $args{print} : 1;
+    my $print = defined $args{print} ? $args{print} : 1;
+    $self->print($print);
 
-    $self->{display} = {
+    $self->display(
         time => 1,
         label => 1,
         pid => 0,
         proc => 0,
-    };
+    );
 
     return $self;
 }
 sub level {
-    my ($self, $level, $get) = @_;
+    my ($self, $level) = @_;
 
     my %levels = $self->labels;
     my %rev = reverse %levels;
 
-    return $rev{$level} if $get;
-
     if (defined $level) {
-        if ($level =~ /^\d$/ && defined $levels{$level}) {
+        if ($level =~ /^\d$/ && defined $levels{$level}){
             $self->{level} = $level;
-            $self->{display_level} = "$level:$levels{$level}";
         }
         elsif ($level =~ /^\w{3}/ && (my ($l_name) = grep /^$level/, keys %rev)){
             $self->{level} = $rev{$l_name};
-            $self->{display_level} = "$rev{$l_name}:$l_name";
         }
         else {
-            CORE::warn "invalid level specified, using default 'warning' (4)\n";
+            CORE::warn
+                "invalid level ($level) specified, using default 'warning' (4)\n";
         }
     }
     return $self->{level};
@@ -158,11 +155,18 @@ sub display {
     return 1 if defined $tags{all} || defined $tag && $tag eq 'all';
     return $self->{display}{$tag} if defined $tag;
 
+    my %valid = (
+        time => 0,
+        label => 0,
+        pid => 0,
+        proc => 0,
+    );
+
     if ($tag){
         return $self->{display}{$tag};
     }
     for (keys %tags) {
-        if (! defined $self->{display}{$_}) {
+        if (! defined $valid{$_}) {
             CORE::warn "$_ is an invalid tag...skipping\n";
             next;
         }
@@ -175,15 +179,13 @@ sub print {
     $_[0]->{print} = $_[1] if defined $_[1];
     return $_[0]->{print};
 }
-sub _build {
+sub _generate_entry {
     my $self = shift;
     my $label = shift;
 
-    my @labels = $self->labels('names');
-    push @labels, qw(emerg crit warn err);
-
-    if (! grep { $label eq $_ } @labels){
-        croak "_build() requires a label name as its first param\n";
+    my $subs = $self->_sub_names;
+    if (! grep { $label eq $_ } @$subs){
+        croak "_generate_entry() requires a sub/label name as its first param\n";
     }
 
     my $msg;
@@ -258,7 +260,7 @@ Log::Simple - Perl extension for simple logging.
 =head1 SYNOPSIS
 
   perl -MLog::Simple -e 'info "hey"'
-  
+
   use Log::Simple;
   $Log::Simple::VERBOSITY=3;
   debug "stuff"; # won't be printed

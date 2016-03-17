@@ -17,8 +17,7 @@ use_ok($mod);
 
     is (exists $log->{level}, 1, "level attr exists");
     is ($log->{level}, 4, "default level is ok");
-    is (exists $log->{file}, 1, "the file attr exists");
-    is ($log->{file}, '', "no file is set by default");
+    is ($log->{file}, undef, "file param unset if not initialized");
 }
 { # new() with level (num)
     my $i = 0;
