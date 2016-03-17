@@ -10,8 +10,8 @@ my $mod = 'Log::Simple';
 {
     my $log = $mod->new;
 
-    my %labels = $log->labels;
-    my %rev = reverse $log->labels;
+    my %levels = $log->levels;
+    my %rev = reverse $log->levels;
 
     my $subs = $log->_sub_names;
 
@@ -19,12 +19,12 @@ my $mod = 'Log::Simple';
         my $level_int = $log->_level_value($sub);
 
         if ($sub =~ /^_(\d)$/){
-            my $name = $labels{$1};
-            is ($labels{$level_int}, $name, "numbered sub $sub has $name");
+            my $name = $levels{$1};
+            is ($levels{$level_int}, $name, "numbered sub $sub has $name");
         }
         else {
             my ($name) = grep /^$sub/, keys %rev;
-            is ($labels{$level_int}, $name, "named sub $sub has $name");
+            is ($levels{$level_int}, $name, "named sub $sub has $name");
         }
     }
 }

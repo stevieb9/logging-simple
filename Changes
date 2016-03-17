@@ -4,7 +4,7 @@ Revision history for Perl extension Log::Simple
         - add more tests for new(display => 0/1) and display(0/1)
         - new 'name' param and method, for use in display (closes #14)
         - new _translate() method, refactored code to use it
-        -
+        - renamed labels() to levels()
 
 
 0.03    20160316

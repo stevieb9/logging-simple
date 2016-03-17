@@ -9,7 +9,7 @@ my $mod = 'Log::Simple';
 can_ok($mod, 'new');
 can_ok($mod, 'file');
 can_ok($mod, 'level');
-can_ok($mod, 'labels');
+can_ok($mod, 'levels');
 can_ok($mod, 'display');
 can_ok($mod, 'timestamp');
 can_ok($mod, 'print');

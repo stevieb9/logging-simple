@@ -9,9 +9,9 @@ use Test::More;
     my $mod = 'Log::Simple';
     my $log = $mod->new;
 
-    my @names = $log->labels( 'names' );
+    my @names = $log->levels( 'names' );
 
-    is ( @names, 8, "labels() returns correct count with 'names' param" );
+    is ( @names, 8, "levels() returns correct count with 'names' param" );
 
     my %levels = (
         0 => 'emergency',
@@ -31,12 +31,12 @@ use Test::More;
             "levels() with 'names' param maps $_ to $levels{$_} ok");
     }
 
-    my %tags = $log->labels;
+    my %tags = $log->levels;
 
-    is (ref \%tags, 'HASH', "labels() returns a hash");
+    is (ref \%tags, 'HASH', "levels() returns a hash");
 
     for (0..7){
-        is ($tags{$_}, $levels{$_}, "return from labels() is sane");
+        is ($tags{$_}, $levels{$_}, "return from levels() is sane");
     }
 
     is (keys %tags, 8, "levels() return has proper key count");

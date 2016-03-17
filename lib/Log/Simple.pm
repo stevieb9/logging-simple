@@ -10,7 +10,7 @@ our $VERSION = '0.04';
 BEGIN {
 
     sub _sub_names {
-        my @labels = qw(
+        my @levels = qw(
             emergency alert critical
             error warning notice info debug
         );
@@ -18,7 +18,7 @@ BEGIN {
         my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
 
         my @all;
-        push @all, @labels, @short, @nums;
+        push @all, @levels, @short, @nums;
 
         return \@all;
     }
