@@ -1,5 +1,8 @@
 Revision history for Perl extension Log::Simple
 
+0.04    20160316
+        -
+
 0.03    20160316
         - added tests for _generate_entry() (closes #5)
         - added tests in t/06 for correct message returns
