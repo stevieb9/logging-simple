@@ -79,5 +79,24 @@ sub _fetch {
     close $fh;
     return $ret;
 }
+{ # append mode (write_mode) param in new()
+    my $fn = _fname();
+
+    { # write
+        my $log = $mod->new(file => $fn, write_mode => 'a');
+        print { $log->{fh} } "abc";
+        $log->file(0);
+        my $ret = _fetch($fn);
+        is ($ret, 'abc', "write to file ok");
+    }
+    { # append
+        my $log = $mod->new(file => $fn, write_mode => 'a');
+        print { $log->{fh} } "def";
+        $log->file(0);
+        my $ret = _fetch($fn);
+        is ($ret, 'abcdef', "write_mode append in new() works");
+    }
+}
+
 done_testing();
 
