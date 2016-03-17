@@ -299,7 +299,7 @@ __END__
 
 =head1 NAME
 
-Log::Simple - Perl extension for simple logging.
+Log::Simple - A simple but featureful logging mechanism.
 
 =for html
 <a href="http://travis-ci.org/stevieb9/p5-log-simple"><img src="https://secure.travis-ci.org/stevieb9/p5-log-simple.png"/>
@@ -307,27 +307,59 @@ Log::Simple - Perl extension for simple logging.
 
 =head1 SYNOPSIS
 
-  perl -MLog::Simple -e 'info "hey"'
+    use Log::Simple;
 
-  use Log::Simple;
-  $Log::Simple::VERBOSITY=3;
-  debug "stuff"; # won't be printed
-  info "here is the info message"; # won't be printed
-  warning "wow! beware!";
-  error "something terrible happend !";
-  msg "this message will be displayed whatever the verbosity level";
-  sep "a separator";
-  fatal "fatal error: $!";
+    my $log = Log::Simple->new(name => 'whatever'); # name is optional
+
+    $log->warning("default level (4)");
+
+    $log->_4("all levels can be called by number. This is warning()");
+
+    $log->_7("this is debug(). Default level is 4, so this won't print");
+
+    $log->level(7);
+    $log->debug("same as _7(). It'll print now");
+
+    $log->file('file.log');
+    $log->info("this will go to file");
+    $log->file(0); # back to STDOUT
+
+    $log->_6("info facility, example output");
+    #[2016-03-17 16:49:32.491][info][whatever] info facility, example output
+
+    $log->display(0);
+    $log->info("display(0) disables all output but this msg");
+    $log->info("see display() method for disabling, enabling individual tags");
+
+    $log->display(1);
+    $log->info("all tags enabled");
+    #[2016-03-17 16:52:06.356][info][whatever][5689][t/syn.pl|29] all tags enabled
+
+    $log->print(0);
+    my $log_entry = $log->info("print(0) disables printing and returns the entry");
+
 
 =head1 DESCRIPTION
 
-Log::Simple displays formatted messages according to the defined verbosity level (default:4).
+Lightweight (core-only) and very simple yet powerful debug tool for printing or
+writing to file log type entries based on a configurable level (0-7).
 
-=head2 Format
+It provides the ability to programmatically change which output tags to display,
+provides numbered methods so you don't have to remember the name to number
+level translation, provides the ability to create descendent children, easily
+enable/disable file output, levels, display etc.
 
-Log messages are formatted as: `[<level>] <date> - <message>`.
-Dates are formatted as: `YYYY-MM-DD hh:mm:ss`.
-Your message could be whatever you what.
+=head2 Log entry format
+
+By default, log entries appear as such, with a timestamp, the name of the
+facility, the name (if specified in the constructor) and finally the actual
+log entry message.
+
+    [2016-03-17 17:01:21.959][info][whatever] info facility, example output
+
+All of the above tags can be enabled/disabled programatically at any time, and
+there are others that are not enabled by default. See L<display> method for
+details.
 
 =head2 Levels
 
@@ -335,47 +367,53 @@ Verbosity and associated levels are:
 
 =over
 
-=item - level 1, `msg`
-
-=item - level 2, `error`
-
-=item - level 3, `warn`
-
-=item - level 4, `info`
-
-=item - level 5, `debug`
-
-=item - no level, `fatal`
+=item - level 0, 'emergency|emerg'
+=item - level 1, `alert`
+=item - level 2, `critical|crit`
+=item - level 3, `error|err`
+=item - level 4, `warning|warn`
+=item - level 5, `notice`
+=item - level 6, `info`
+=item - level 7, `debug`
 
 =back
 
-Setting verbosity to 3 will print `warn`, `info`, and `msg` only.
+Note that all named level methods have an associated _N method, so you don't
+have to remember the names at all.
 
-=head2 Special cases
+Setting the C<level> will display all messages related to that level and below.
 
-`fatal` is a special level, corresponding to perl's `die()`.
-
-Separator is a special functions which display a line of 80 dashes, with your message eventually.
-
-=head2 Saving to file
-
-All messages will also be appended to a file. If a `./log/` folder exists, a `$$.$0.log` file is created within this folder, otherwise the `$$.$0.log` file is created in the current directory.
-
-=head1 EXPORT
-
-debug info warning error msg sep fatal
 
 =head1 AUTHOR
 
-Kevin Gravouil, E<lt>k.gravouil@gmail.comE<gt>
+Steve Bertrand, C<< <steveb at cpan.org> >>
 
-=head1 COPYRIGHT AND LICENSE
+=head1 BUGS
 
-Copyright (C) 2016 by Kevin Gravouil
+Please report any bugs or feature requests to
+L<https://github.com/stevieb9/p5-log-simple/issues>
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.20.2 or,
-at your option, any later version of Perl 5 you may have available.
+=head1 REPOSITORY
 
-=cut
+L<https://github.com/stevieb9/p5-log-simple>
+
+=head1 BUILD RESULTS (THIS VERSION)
+
+CPAN Testers: L<http://matrix.cpantesters.org/?dist=Log-Simple>
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc Log::Simple
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2016 Steve Bertrand.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See L<http://dev.perl.org/licenses/> for more information.
 

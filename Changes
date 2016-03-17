@@ -1,6 +1,7 @@
 Revision history for Perl extension Log::Simple
 
 0.05    20160316
+        - 100% test coverage
 
 0.04    20160316
         - add more tests for new(display => 0/1) and display(0/1)
