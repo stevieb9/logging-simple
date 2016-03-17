@@ -62,5 +62,16 @@ use_ok($mod);
 
     is ($log->level, 1, "if LS_LEVEL env var changes, so does level");
 }
+{ #level too high
+    my $log = $mod->new(print => 0);
+
+    my $warn;
+    local $SIG{__WARN__} = sub { $warn = shift; };
+
+    my $msg = $log->info('test');
+
+    is ($warn, undef, "calling a routine on too high of a level ok");
+    is ($msg, undef, "...and msg is undef");
+}
 done_testing();
 

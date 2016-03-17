@@ -29,17 +29,28 @@ BEGIN {
         no strict 'refs';
 
         for (@$sub_names) {
+
+            my $sub = $_;
+
             *$_ = sub {
                 my ($self, $msg) = @_;
 
                 $self->level($ENV{LS_LEVEL}) if defined $ENV{LS_LEVEL};
 
-                if ($_ =~ /^_(\d)$/){
+                if ($sub =~ /^_(\d)$/){
                     return if $1 > $self->level;
                 }
-                return if $self->_level_value($_) > $self->level;
+                return if $self->_level_value($sub) > $self->level;
 
-                $self->_generate_entry($_, $msg);
+                my $proc = join '|', (caller(0))[1..2];
+
+                my %log_entry = (
+                    label => $sub,
+                    proc => $proc,
+                    msg => $msg,
+                );
+
+                $self->_generate_entry(%log_entry);
             }
         }
     }
@@ -207,25 +218,29 @@ sub print {
 }
 sub _generate_entry {
     my $self = shift;
-    my $label = shift;
+    my %entry = @_;
+
+    my $label = $entry{label};
+    my $proc = $entry{proc};
+    my $msg = $entry{msg};
 
     my $subs = $self->_sub_names;
     if (! grep { $label eq $_ } @$subs){
         croak "_generate_entry() requires a sub/label name as its first param\n";
     }
 
-    my $msg;
-    $msg .= "[".$self->timestamp()."]" if $self->display('time');
-    $msg .= "[$label]" if $self->display('label');
-    $msg .= "[pid:$$]" if $self->display('pid');
-    $msg .= "[proc:]" if $self->display('proc');
-    $msg .= " " if $msg;
-    $msg .= "@_\n";
+    my $log_entry;
+    $log_entry .= "[".$self->timestamp()."]" if $self->display('time');
+    $log_entry .= "[$label]" if $self->display('label');
+    $log_entry .= "[pid:$$]" if $self->display('pid');
+    $log_entry .= "[proc:$proc]" if $self->display('proc');
+    $log_entry .= " " if $log_entry;
+    $log_entry .= "$msg\n";
 
-    return $msg if ! $self->print;
+    return $log_entry if ! $self->print;
 
     if ($self->{fh}){
-        print { $self->{fh} } $msg;
+        print { $self->{fh} } $log_entry;
     }
     else {
         print $msg;

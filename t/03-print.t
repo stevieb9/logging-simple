@@ -21,7 +21,7 @@ use Test::More;
     my $fn = _fname();
     $log->file($fn);
 
-    $log->_generate_entry('debug', 'testing print');
+    $log->_generate_entry(label => 'debug', msg => 'testing print');
     $log->file(0);
 
     open my $fh, '<', $fn or die $!;
@@ -30,7 +30,7 @@ use Test::More;
 
     $log->print(0);
 
-    my $msg = $log->_generate_entry('debug', 'no print');
+    my $msg = $log->_generate_entry(label => 'debug', msg => 'no print');
     like ($msg, qr/debug.*no print/, "print(0) returns with no print");
 }
 
