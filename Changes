@@ -1,11 +1,16 @@
 Revision history for Perl extension Log::Simple
 
+0.05    20160316
+
 0.04    20160316
         - add more tests for new(display => 0/1) and display(0/1)
         - new 'name' param and method, for use in display (closes #14)
         - new _translate() method, refactored code to use it
         - renamed labels() to levels()
-
+        - changed timestamp() to use Time::HiRes and gather microseconds for
+          log timestamp
+        - added child(), returns a new object with all parents settings, with
+          'name' param concatinated
 
 0.03    20160316
         - added tests for _generate_entry() (closes #5)

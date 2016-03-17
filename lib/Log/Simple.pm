@@ -1,11 +1,13 @@
 package Log::Simple;
-use 5.002;
+use 5.007;
 use strict;
 use warnings;
 
 use Carp qw(croak);
+use POSIX qw(strftime);
+use Time::HiRes qw(time);
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 BEGIN {
 
@@ -145,8 +147,10 @@ sub name {
     return $self->{name};
 }
 sub timestamp {
-	my ($S,$M,$H,$d,$m,$y) = localtime(time);
-	return sprintf("%04d-%02d-%02d %02d:%02d:%02d", $y+1900, $m+1 ,$d,$H,$M,$S);
+	my $t = time;
+    my $date = strftime "%Y-%m-%d %H:%M:%S", localtime $t;
+    $date .= sprintf ".%03d", ($t-int($t))*1000; # without rounding
+    return $date;
 }
 sub levels {
     my ($self, $want) = @_;
@@ -201,16 +205,13 @@ sub display {
     }
 
     my %valid = (
-        name => 1,
+        name => 0,
         time => 0,
         label => 0,
         pid => 0,
         proc => 0,
     );
 
-    if ($tag){
-        return $self->{display}{$tag};
-    }
     for (keys %tags) {
         if (! defined $valid{$_}) {
             CORE::warn "$_ is an invalid tag...skipping\n";
@@ -227,7 +228,10 @@ sub print {
     return $_[0]->{print};
 }
 sub child {
-    my $self = shift;
+    my ($self, $name) = @_;
+    my $child = bless { %$self }, ref $self;
+    $child->name($self->name .".$name");
+    return $child;
 }
 sub _level_value {
     my ($self, $level) = @_;
@@ -274,8 +278,8 @@ sub _generate_entry {
     $log_entry .= "[".$self->timestamp()."]" if $self->display('time');
     $log_entry .= "[$label]" if $self->display('label');
     $log_entry .= "[".$self->name."]" if $self->display('name') && $self->name;
-    $log_entry .= "[pid:$$]" if $self->display('pid');
-    $log_entry .= "[proc:$proc]" if $self->display('proc');
+    $log_entry .= "[$$]" if $self->display('pid');
+    $log_entry .= "[$proc]" if $self->display('proc');
     $log_entry .= " " if $log_entry;
     $log_entry .= "$msg\n";
 
@@ -285,7 +289,7 @@ sub _generate_entry {
         print { $self->{fh} } $log_entry;
     }
     else {
-        print $msg;
+        print $log_entry;
     }
 }
 
