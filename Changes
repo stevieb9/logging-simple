@@ -1,8 +1,23 @@
 Revision history for Perl extension Log::Simple
 
+0.03    20160316
+        -
+
 0.02    20160316
+        - added display(), allows selecting various tags in print output
+        - added print(), if disabled, log message will be returned as a string
+        - added _build(), helper method to generate the log entry
+        - Travis-CI, coveralls.io integration (closes #3)
+        - test files for POD and critic (closes #4)
+        - emerg(), crit(), warn() and err() short names along with full name
+          methods
+        - new() allows print param
         - added _sub_names(), returns entire list of dynamic subs
         - added _level_value(), returns the numeric value of a single level
+          (closes #7)
+        - test print attr in new() (closes #6)
+        - initial code refactoring, uses methods for setters/getters in new()
+          instead of attrs directly
 
 0.01    20160315
         - initial version
