@@ -10,7 +10,7 @@ Revision history for Perl extension Log::Simple
         - changed timestamp() to use Time::HiRes and gather microseconds for
           log timestamp
         - added child(), returns a new object with all parents settings, with
-          'name' param concatinated
+          'name' param concatenated
 
 0.03    20160316
         - added tests for _generate_entry() (closes #5)

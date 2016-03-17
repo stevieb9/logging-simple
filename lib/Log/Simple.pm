@@ -31,7 +31,6 @@ BEGIN {
         no strict 'refs';
 
         for (@$sub_names) {
-
             my $sub = $_;
 
             *$_ = sub {

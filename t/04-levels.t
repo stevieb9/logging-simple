@@ -5,8 +5,9 @@ use warnings;
 use Log::Simple;
 use Test::More;
 
+my $mod = 'Log::Simple';
+
 {
-    my $mod = 'Log::Simple';
     my $log = $mod->new;
 
     my @names = $log->levels( 'names' );
@@ -40,6 +41,17 @@ use Test::More;
     }
 
     is (keys %tags, 8, "levels() return has proper key count");
+}
+{ # level invalid warning
+    my $warn;
+    local $SIG{__WARN__} = sub { $warn = shift; };
+
+    my $log = $mod->new;
+
+    my $lvl = $log->level('xxx');
+
+    like ($warn, qr/invalid level/, "an invalid level spits a warning");
+    is ($lvl, 4, "...and the default level is set");
 }
 
 done_testing();
