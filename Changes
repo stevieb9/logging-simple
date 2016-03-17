@@ -17,5 +17,8 @@ Revision history for Perl extension Log::Simple
         - added _build(), helper method to generate the log entry
         - Travis-CI, coveralls.io integration (closes #3)
         - test files for POD and critic (closes #4)
+        - emerg(), crit(), warn() and err() short names along with full name
+          methods
+        - new() allows print param
 
 

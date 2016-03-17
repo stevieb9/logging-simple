@@ -8,7 +8,6 @@ use Carp qw(croak);
 our $VERSION = '0.01';
 
 BEGIN {
-
     my @labels = qw(emergency alert critical error warning notice info debug);
     my @short = qw(emerg crit err warn);
 
@@ -17,6 +16,7 @@ BEGIN {
         for (@labels, @short) {
             *$_ = sub {
                 my ($self, $msg) = @_;
+                return if $self->level($_, 1) > $self->level;
                 $self->_build($_, $msg);
             }
         }
@@ -42,7 +42,7 @@ sub new {
         $self->file($self->{file});
     }
 
-    $self->{print} = 1;
+    $self->{print} = defined $args{print} ? $args{print} : 1;
 
     $self->{display} = {
         time => 1,
@@ -54,10 +54,12 @@ sub new {
     return $self;
 }
 sub level {
-    my ($self, $level) = @_;
+    my ($self, $level, $get) = @_;
 
     my %levels = $self->labels;
     my %rev = reverse %levels;
+
+    return $rev{$level} if $get;
 
     if (defined $level) {
         if ($level =~ /^\d$/ && defined $levels{$level}) {
@@ -72,7 +74,7 @@ sub level {
             CORE::warn "invalid level specified, using default 'warning' (4)\n";
         }
     }
-    return $self->{display_level};
+    return $self->{level};
 }
 sub file {
     my ($self, $file, $mode) = @_;
@@ -109,7 +111,7 @@ sub labels {
     my %levels = (
         0 => 'emergency',
         1 => 'alert',
-        2 => 'crititcal',
+        2 => 'critical',
         3 => 'error',
         4 => 'warning',
         5 => 'notice',
@@ -163,6 +165,7 @@ sub _build {
     my $label = shift;
 
     my @labels = $self->labels('names');
+    push @labels, qw(emerg crit warn err);
 
     if (! grep { $label eq $_ } @labels){
         croak "_build() requires a label name as its first param\n";
