@@ -16,7 +16,7 @@ use Test::More;
     my %levels = (
         0 => 'emergency',
         1 => 'alert',
-        2 => 'crititcal',
+        2 => 'critical',
         3 => 'error',
         4 => 'warning',
         5 => 'notice',
