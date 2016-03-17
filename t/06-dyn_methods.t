@@ -56,6 +56,19 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
 
     is (@msgs, 5, "with default level, short names has proper msg count");
 }
+{ # dyn methods reset level from ENV
+    my $log = Log::Simple->new(print => 0);
+
+    my $subs = $log->_sub_names;
+
+    for (@$subs){
+        my $lvl = $log->_level_value($_);
+        $ENV{LS_LEVEL} = $lvl;
+        my $msg = $log->$_('env test');
+        is ($log->level, $lvl, "$_ has reset level to $_ with LS_LEVEL env");
+        like ($msg, qr/env test/, "...and msg is ok");
+    }
+}
 
 done_testing();
 

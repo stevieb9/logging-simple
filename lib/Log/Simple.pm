@@ -31,10 +31,14 @@ BEGIN {
         for (@$sub_names) {
             *$_ = sub {
                 my ($self, $msg) = @_;
+
+                $self->level($ENV{LS_LEVEL}) if defined $ENV{LS_LEVEL};
+
                 if ($_ =~ /^_(\d)$/){
                     return if $1 > $self->level;
                 }
                 return if $self->_level_value($_) > $self->level;
+
                 $self->_generate_entry($_, $msg);
             }
         }
@@ -49,7 +53,8 @@ sub new {
         $self->level($args{level});
     }
     else {
-        $self->level(4);
+        my $lvl = defined $ENV{LS_LEVEL} ? $ENV{LS_LEVEL} : 4;
+        $self->level($lvl);
     }
 
     if ($args{file}){
@@ -73,6 +78,8 @@ sub level {
 
     my %levels = $self->labels;
     my %rev = reverse %levels;
+
+    $self->{level} = $ENV{LS_LEVEL} if defined $ENV{LS_LEVEL};
 
     if (defined $level) {
         if ($level =~ /^\d$/ && defined $levels{$level}){

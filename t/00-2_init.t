@@ -46,10 +46,21 @@ use_ok($mod);
     is (ref $log->{fh}, 'GLOB', "a file handle is created ok");
     close $log->{fh};
 }
-{ #set/get print
+{ # set/get print
 
     my $log = $mod->new(print => 0);
     is ($log->{print}, 0, "print attr in new is set properly");
+}
+{ # level env var
+    $ENV{LS_LEVEL} = 7;
+
+    my $log = $mod->new;
+
+    is ($log->level, 7, "new() picks up LS_LEVEL env var ok");
+
+    $ENV{LS_LEVEL} = 1;
+
+    is ($log->level, 1, "if LS_LEVEL env var changes, so does level");
 }
 done_testing();
 

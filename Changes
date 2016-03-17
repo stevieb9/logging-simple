@@ -1,7 +1,10 @@
 Revision history for Perl extension Log::Simple
 
 0.03    20160316
-        -
+        - added tests for _generate_entry() (closes #5)
+        - added tests in t/06 for correct message returns
+        - we can now set level via LS_LEVEL environment variable at any time
+          (closes #1)
 
 0.02    20160316
         - added display(), allows selecting various tags in print output
