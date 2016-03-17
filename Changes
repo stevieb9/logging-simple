@@ -1,5 +1,9 @@
 Revision history for Perl extension Log::Simple
 
+0.02    20160316
+        - added _sub_names(), returns entire list of dynamic subs
+        - added _level_value(), returns the numeric value of a single level
+
 0.01    20160315
         - initial version
         - cloned (manually) from Log::Basic and renamed to Log::Simple

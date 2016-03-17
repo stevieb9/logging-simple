@@ -5,17 +5,27 @@ use warnings;
 
 use Carp qw(croak);
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 BEGIN {
-    my @labels = qw(emergency alert critical error warning notice info debug);
-    my @short = qw(emerg crit err warn);
-    my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
+
+    sub _sub_names {
+        my @labels = qw(emergency alert critical error warning notice info debug);
+        my @short = qw(emerg crit err warn);
+        my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
+
+        my @all;
+        push @all, @labels, @short, @nums;
+
+        return \@all;
+    }
+
+    my $sub_names = _sub_names();
 
     {
         no strict 'refs';
 
-        for (@labels, @short, @nums) {
+        for (@$sub_names) {
             *$_ = sub {
                 my ($self, $msg) = @_;
                 if ($_ =~ /^_(\d)$/){
@@ -192,6 +202,19 @@ sub _build {
         print $msg;
     }
 }
+sub _level_value {
+    my ($self, $level) = @_;
+
+    if ($level =~ /^_(\d)$/){
+        return $1;
+    }
+    else {
+        my %labels = reverse $self->labels;
+        my ($level_name) = grep /^$level/, keys %labels;
+        return $labels{$level_name};
+    }
+}
+
 __END__
 sub info {
 	print "[info]  [proc:$$] [".timestamp()."] @_\n" if $VERBOSITY > 3;
