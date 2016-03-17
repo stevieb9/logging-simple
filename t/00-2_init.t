@@ -46,5 +46,10 @@ use_ok($mod);
     is (ref $log->{fh}, 'GLOB', "a file handle is created ok");
     close $log->{fh};
 }
+{ #set/get print
+
+    my $log = $mod->new(print => 0);
+    is ($log->{print}, 0, "print attr in new is set properly");
+}
 done_testing();
 
