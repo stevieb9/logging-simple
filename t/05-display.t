@@ -5,6 +5,8 @@ use Data::Dumper;
 use Log::Simple;
 use Test::More;
 
+my $mod = 'Log::Simple';
+
 { # entire list
     my $log = Log::Simple->new;
 
@@ -22,7 +24,7 @@ use Test::More;
 }
 { # all
     my $log = Log::Simple->new;
-    is ($log->display('all'), 1, "display() returns true with 'all' param");
+    is ($log->display(1), 1, "display() returns true with '1' param");
 }
 { # get single
     my $log = Log::Simple->new;
@@ -45,4 +47,31 @@ use Test::More;
     my $ret = $log->display(blah => 1);
     like ($warn, qr/blah is an invalid tag/, "invalid tags get squashed");
 }
+{ # display => none in new() param
+    my $log = $mod->new(display => 0);
+
+    my %display = $log->display;
+
+    for (keys %display){
+        is ($display{$_}, 0, "display setting $_ is disabled due to '0' param");
+    }
+}
+{ # display() with 0 and all
+    my $log = $mod->new;
+
+    $log->display(0);
+    my %display = $log->display;
+
+    for (keys %display){
+        is ($display{$_}, 0, "display setting $_ is disabled due to '0'");
+    }
+
+    $log->display(1);
+    %display = $log->display;
+
+    for (keys %display){
+        is ($display{$_}, 1, "display setting $_ is enabled due to '1'");
+    }
+}
+
 done_testing();

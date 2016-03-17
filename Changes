@@ -5,6 +5,8 @@ Revision history for Perl extension Log::Simple
         - added tests in t/06 for correct message returns
         - we can now set level via LS_LEVEL environment variable at any time
           (closes #1)
+        - display() and 'display' param in new() now accepts either a 0 or 1 to
+          disable/enable all outputs (closes #11)
 
 0.02    20160316
         - added display(), allows selecting various tags in print output

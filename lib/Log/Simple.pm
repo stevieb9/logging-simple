@@ -65,11 +65,15 @@ sub new {
     $self->print($print);
 
     $self->display(
-        time => 1,
-        label => 1,
-        pid => 0,
-        proc => 0,
+            time  => 1,
+            label => 1,
+            pid   => 0,
+            proc  => 0,
     );
+
+    if (defined $args{display}){
+        $self->display($args{display});
+    }
 
     return $self;
 }
@@ -159,8 +163,22 @@ sub display {
         %tags = @_;
     }
 
-    return 1 if defined $tags{all} || defined $tag && $tag eq 'all';
-    return $self->{display}{$tag} if defined $tag;
+    if (defined $tag){
+        if ($tag =~ /^0$/){
+            for (keys %{ $self->{display} }){
+                $self->{display}{$_} = 0;
+            }
+            return 0;
+        }
+        if ($tag =~ /^1$/){
+            for (keys %{ $self->{display} }){
+                $self->{display}{$_} = 1;
+            }
+            return 1;
+        }
+
+        return $self->{display}{$tag};
+    }
 
     my %valid = (
         time => 0,
@@ -179,6 +197,7 @@ sub display {
         }
         $self->{display}{$_} = $tags{$_};
     }
+
 
     return %{ $self->{display} };
 }
