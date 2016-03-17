@@ -11,9 +11,9 @@ my $mod = 'Log::Simple';
     my $log = Log::Simple->new;
 
     my %h = $log->display;
-    is (keys %h, 4, "display() with no params returns the correct hash");
+    is (keys %h, 5, "display() with no params returns the correct hash");
 
-    for (qw(pid label time proc)){
+    for (qw(name pid label time proc)){
         if ($_ eq 'proc' || $_ eq 'pid'){
             is ($h{$_}, 0, "$_ defaults to disabled");
         }

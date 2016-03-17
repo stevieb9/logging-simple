@@ -18,7 +18,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     for (@labels){
         my $msg = $log->$_($_);
         if ($msg) {
-            like ( $msg, qr/\[$_\] $_/, "$_ has proper msg" );
+            like ( $msg, qr/\[$_\]\[.*?\] $_/, "$_ has proper msg" );
         }
         push @msgs, $msg if $msg;
     }
@@ -33,7 +33,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     for (@short){
         my $msg = $log->$_($_);
         if ($msg) {
-            like ( $msg, qr/\[$_\] $_/, "$_ has proper msg" );
+            like ( $msg, qr/\[$_\]\[.*?\] $_/, "$_ has proper msg" );
         }
         push @msgs, $msg if $msg;
     }
@@ -47,14 +47,16 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
 
     for (@nums){
         /^_(\d)$/;
+        my $lvl = $log->_translate($1);
+
         my $msg = $log->$_($_);
         if ($msg) {
-            like ( $msg, qr/\[$_\] $_/, "$_ has proper msg" );
+            like ( $msg, qr/\[$lvl\]\[.*?\] $_/, "$_ has proper msg" );
         }
         push @msgs, $msg if $msg;
     }
 
-    is (@msgs, 5, "with default level, short names has proper msg count");
+    is (@msgs, 5, "with default level, nums has proper msg count");
 }
 { # dyn methods reset level from ENV
     my $log = Log::Simple->new(print => 0);
@@ -124,7 +126,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
 
         like (
             $msg,
-            qr/(?:\[.*?\]){4} env test/,
+            qr/(?:\[.*?\]){5} env test/,
             "with display(1), $_ message is ok"
         );
     }

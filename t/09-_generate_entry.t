@@ -15,7 +15,7 @@ my $log = $mod->new(print => 0);
 }
 { # default display
     my $msg = $log->_generate_entry(label => 'info', msg => 'test');
-    like ($msg, qr/\[.*?\]\[info\] test/, "default display is correct");
+    like ($msg, qr/\[.*?\]\[info\]\[Log::Simple\] test/, "default display is correct");
 }
 done_testing();
 

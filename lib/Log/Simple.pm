@@ -76,6 +76,7 @@ sub new {
     $self->print($print);
 
     $self->display(
+            name => 1,
             time  => 1,
             label => 1,
             pid   => 0,
@@ -85,6 +86,8 @@ sub new {
     if (defined $args{display}){
         $self->display($args{display});
     }
+
+    $self->name(__PACKAGE__);
 
     return $self;
 }
@@ -134,6 +137,11 @@ sub file {
     $self->{file} = $file;
 
     return $self->{file};
+}
+sub name {
+    my ($self, $name) = @_;
+    $self->{name} = $name if defined $name;
+    return $self->{name};
 }
 sub timestamp {
 	my ($S,$M,$H,$d,$m,$y) = localtime(time);
@@ -192,6 +200,7 @@ sub display {
     }
 
     my %valid = (
+        name => 1,
         time => 0,
         label => 0,
         pid => 0,
@@ -216,6 +225,20 @@ sub print {
     $_[0]->{print} = $_[1] if defined $_[1];
     return $_[0]->{print};
 }
+sub _translate {
+    my ($self, $label) = @_;
+
+    my %levels = $self->labels;
+
+    if ($label =~ /^_?(\d)$/){
+        return $levels{$1};
+    }
+    else {
+        my %rev = reverse %levels;
+        my ($lvl) = grep /^$label/, keys %rev;
+        return $lvl;
+    }
+}
 sub _generate_entry {
     my $self = shift;
     my %entry = @_;
@@ -229,9 +252,14 @@ sub _generate_entry {
         croak "_generate_entry() requires a sub/label name as its first param\n";
     }
 
+    if ($label =~ /^_(\d)$/){
+        $label = $self->_translate($1);
+    }
+
     my $log_entry;
     $log_entry .= "[".$self->timestamp()."]" if $self->display('time');
     $log_entry .= "[$label]" if $self->display('label');
+    $log_entry .= "[".$self->name."]" if $self->display('name');
     $log_entry .= "[pid:$$]" if $self->display('pid');
     $log_entry .= "[proc:$proc]" if $self->display('proc');
     $log_entry .= " " if $log_entry;
