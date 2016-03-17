@@ -286,36 +286,6 @@ sub _generate_entry {
     }
 }
 
-
-__END__
-sub info {
-	print "[info]  [proc:$$] [".timestamp()."] @_\n" if $VERBOSITY > 3;
-	print OUT "[info]  [proc:$$] [".timestamp()."] @_\n" if(fileno(OUT));
-}
-sub warning {
-	print "[warn]  [proc:$$] [".timestamp()."] @_\n" if $VERBOSITY > 2;
-	print OUT "[warn]  [proc:$$] [".timestamp()."] @_\n" if(fileno(OUT));
-}
-sub error {
-	print "[error] [proc:$$] [".timestamp()."] @_\n" if $VERBOSITY > 1;
-	print OUT "[error] [proc:$$] [".timestamp()."] @_\n" if(fileno(OUT));
-}
-sub msg {
-	print "[msg]   [proc:$$] [".timestamp()."] @_\n" if $VERBOSITY > 0;
-	print OUT "[msg]   [proc:$$] [".timestamp()."] @_\n" if(fileno(OUT));
-}
-sub fatal {
-	print OUT "[fatal] [proc:$$] [".timestamp()."] @_\n" if(fileno(OUT));
-	die "[fatal] [proc:$$] [".timestamp()."] @_\n";
-}
-sub sep {
-	my $str = join(' ', "[proc:$$]", @_);
-	print '---', $str, '-' x (80 - (3 + length $str)), "\n";
-	print OUT '---', $str, '-' x (80 - (3 + length $str)), "\n";
-}
-END {
-	#close $self->{fh};
-}
 1;
 __END__
 
