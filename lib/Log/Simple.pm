@@ -94,7 +94,7 @@ sub new {
 sub level {
     my ($self, $level) = @_;
 
-    my %levels = $self->labels;
+    my %levels = $self->levels;
     my %rev = reverse %levels;
 
     $self->{level} = $ENV{LS_LEVEL} if defined $ENV{LS_LEVEL};
@@ -148,7 +148,7 @@ sub timestamp {
 	my ($S,$M,$H,$d,$m,$y) = localtime(time);
 	return sprintf("%04d-%02d-%02d %02d:%02d:%02d", $y+1900, $m+1 ,$d,$H,$M,$S);
 }
-sub labels {
+sub levels {
     my ($self, $want) = @_;
 
     my %levels = (
@@ -226,10 +226,20 @@ sub print {
     $_[0]->{print} = $_[1] if defined $_[1];
     return $_[0]->{print};
 }
+sub _level_value {
+    my ($self, $level) = @_;
+
+    if ($level =~ /^_(\d)$/){
+        return $1;
+    }
+    else {
+        return $self->_translate($level);
+    }
+}
 sub _translate {
     my ($self, $label) = @_;
 
-    my %levels = $self->labels;
+    my %levels = $self->levels;
 
     if ($label =~ /^_?(\d)$/){
         return $levels{$1};
@@ -275,16 +285,7 @@ sub _generate_entry {
         print $msg;
     }
 }
-sub _level_value {
-    my ($self, $level) = @_;
 
-    if ($level =~ /^_(\d)$/){
-        return $1;
-    }
-    else {
-        return $self->_translate($level);
-    }
-}
 
 __END__
 sub info {
