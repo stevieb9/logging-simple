@@ -213,7 +213,7 @@ sub display {
     );
 
     for (keys %tags) {
-        if (! defined $valid{$_}) {
+        if (! defined $valid{$_}){
             CORE::warn "$_ is an invalid tag...skipping\n";
             next;
         }
@@ -274,6 +274,8 @@ sub _generate_entry {
         $label = $self->_translate($1);
     }
 
+    $msg = $msg ? "$msg\n" : "\n";
+
     my $log_entry;
     $log_entry .= "[".$self->timestamp()."]" if $self->display('time');
     $log_entry .= "[$label]" if $self->display('label');
@@ -281,7 +283,7 @@ sub _generate_entry {
     $log_entry .= "[$$]" if $self->display('pid');
     $log_entry .= "[$proc]" if $self->display('proc');
     $log_entry .= " " if $log_entry;
-    $log_entry .= "$msg\n";
+    $log_entry .= $msg;
 
     return $log_entry if ! $self->print;
 
