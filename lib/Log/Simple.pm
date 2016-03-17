@@ -87,7 +87,7 @@ sub new {
         $self->display($args{display});
     }
 
-    $self->name(__PACKAGE__);
+    $self->name($args{name});
 
     return $self;
 }
@@ -226,6 +226,9 @@ sub print {
     $_[0]->{print} = $_[1] if defined $_[1];
     return $_[0]->{print};
 }
+sub child {
+    my $self = shift;
+}
 sub _level_value {
     my ($self, $level) = @_;
 
@@ -270,7 +273,7 @@ sub _generate_entry {
     my $log_entry;
     $log_entry .= "[".$self->timestamp()."]" if $self->display('time');
     $log_entry .= "[$label]" if $self->display('label');
-    $log_entry .= "[".$self->name."]" if $self->display('name');
+    $log_entry .= "[".$self->name."]" if $self->display('name') && $self->name;
     $log_entry .= "[pid:$$]" if $self->display('pid');
     $log_entry .= "[proc:$proc]" if $self->display('proc');
     $log_entry .= " " if $log_entry;
