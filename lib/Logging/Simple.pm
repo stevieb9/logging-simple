@@ -229,9 +229,23 @@ sub print {
 sub child {
     my ($self, $name) = @_;
     my $child = bless { %$self }, ref $self;
-    $name = $self->name . $name if defined $self->name;
+    $name = $self->name . ".$name" if defined $self->name;
     $child->name($name);
     return $child;
+}
+sub custom_display {
+    my ($self, $disp) = @_;
+
+    if (defined $disp) {
+        if ($disp =~ /^0$/) {
+            delete $self->{custom_display};
+            return 0;
+        }
+        else {
+            $self->{custom_display} = $disp;
+        }
+    }
+    return $self->{custom_display};
 }
 sub _level_value {
     my ($self, $level) = @_;
@@ -277,6 +291,7 @@ sub _generate_entry {
     $msg = $msg ? "$msg\n" : "\n";
 
     my $log_entry;
+    $log_entry .= $self->custom_display if defined $self->custom_display;
     $log_entry .= "[".$self->timestamp()."]" if $self->display('time');
     $log_entry .= "[$label]" if $self->display('label');
     $log_entry .= "[".$self->name."]" if $self->display('name') && $self->name;
@@ -437,6 +452,11 @@ In hash param mode, send in any or all of the tags with 1 (enable) or 0
 (disable).
 
 You can also send in 1 to enable all of the tags, or 0 to disable them all.
+
+=head2 custom_display($str|$false)
+
+This will create a custom tag in your output, and place it at the first column
+of the output. Send in 0 (false) to disable/clear it.
 
 =head2 print($bool)
 

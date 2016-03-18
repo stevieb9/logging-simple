@@ -73,5 +73,26 @@ my $mod = 'Logging::Simple';
         is ($display{$_}, 1, "display setting $_ is enabled due to '1'");
     }
 }
+{ # custom_display()
+    my $log = $mod->new(print => 0);
 
+    $log->display(0);
+
+    $log->custom_display("--");
+
+    my $msg = $log->_0("testing");
+    is ($msg, "-- testing\n", "custom_display() does the right thing by itself");
+
+    $log->display(1);
+
+    $msg = $log->_0("testing");
+
+    like ($msg, qr/--\[/, "cust display with all others ok");
+
+    $log->custom_display(0);
+
+    $msg = $log->_0("testing");
+
+    like ($msg, qr/\[/, "disabling custom display works");
+}
 done_testing();
