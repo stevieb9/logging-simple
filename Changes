@@ -1,5 +1,10 @@
 Revision history for Perl extension Logging::Simple
 
+0.07    xxx
+        - fix undef issue in child() if the parent didn't have a name
+        - added tests to ensure subs run only at appropriate levels (parent and
+          children) (closes #9)
+
 0.06    20160316
         - renamed to Logging::Simple due to search.cpan.org name clash
 

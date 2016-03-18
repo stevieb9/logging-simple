@@ -229,7 +229,8 @@ sub print {
 sub child {
     my ($self, $name) = @_;
     my $child = bless { %$self }, ref $self;
-    $child->name($self->name .".$name");
+    $name = $self->name . $name if defined $self->name;
+    $child->name($name);
     return $child;
 }
 sub _level_value {
