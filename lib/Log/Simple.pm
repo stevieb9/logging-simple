@@ -341,6 +341,10 @@ Log::Simple - A simple but featureful logging mechanism.
 
 =head1 DESCRIPTION
 
+*** This is the first public release. The POD may be off a bit, and despite
+extensive CI testing on multiple platforms, there still may be a few small
+issues. ***
+
 Lightweight (core-only) and very simple yet powerful debug tool for printing or
 writing to file log type entries based on a configurable level (0-7).
 

@@ -37,6 +37,10 @@ SYNOPSIS
 
 DESCRIPTION
 
+    *** This is the first public release. The POD may be off a bit, and
+    despite extensive CI testing on multiple platforms, there still may be
+    a few small issues. ***
+
     Lightweight (core-only) and very simple yet powerful debug tool for
     printing or writing to file log type entries based on a configurable
     level (0-7).
@@ -221,17 +225,4 @@ LICENSE AND COPYRIGHT
     by the Free Software Foundation; or the Artistic License.
 
     See http://dev.perl.org/licenses/ for more information.
-
-POD ERRORS
-
-    Hey! The above document had some coding errors, which are explained
-    below:
-
-    Around line 93:
-
-      You forgot a '=back' before '=head3'
-
-    Around line 136:
-
-      =back without =over
 
