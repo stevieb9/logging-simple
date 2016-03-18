@@ -35,5 +35,6 @@ t/base/one.log
 t/base/parent.log
 t/base/three.log
 t/base/two.log
+t/manifest.t
 t/pod-coverage.t
 t/pod.t

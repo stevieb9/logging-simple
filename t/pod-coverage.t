@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use Test::More;
 
-plan( skip_all => "#FIXME: POD not completed" );
 
 unless ( $ENV{RELEASE_TESTING} ) {
     plan( skip_all => "Author tests not required for installation" );
@@ -23,4 +22,10 @@ eval "use Pod::Coverage $min_pc";
 plan skip_all => "Pod::Coverage $min_pc required for testing POD coverage"
     if $@;
 
-all_pod_coverage_ok();
+pod_coverage_ok(
+    'Log::Simple',
+    { also_private => [ qr/(?:crit|emerg|err|warn)/ ], },
+    "short level method names private",
+);
+
+done_testing();

@@ -484,6 +484,56 @@ subs, create a child with the sub's name to easily identify flow within the
 log. In an OO project, stuff the parent log into the main object, and clone it
 from there.
 
+=head1 LOGGING METHODS
+
+=head2 emergency
+
+Level 0
+
+aka: C<_0()>, C<emerg()>
+
+=head2 alert
+
+Level 1
+
+aka: C<_1()>
+
+=head2 critical
+
+Level 2
+
+aka: C<_2()>, C<crit()>
+
+=head2 error
+
+Level 3
+
+aka: C<_3()>, C<err()>
+
+=head2 warning
+
+Level 4
+
+aka: C<_4()>, C<warn()>
+
+=head2 notice
+
+Level 5
+
+aka: C<_5()>
+
+=head2 info
+
+Level 6
+
+aka: C<_6()>
+
+=head2 debug
+
+Level 7
+
+aka: C<_7()>
+
 =head1 HELPER METHODS
 
 These methods may be handy to the end user, but aren't required for end-use.
