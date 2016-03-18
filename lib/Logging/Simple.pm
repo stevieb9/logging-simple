@@ -302,8 +302,8 @@ __END__
 Logging::Simple - A simple but featureful logging mechanism.
 
 =for html
-<a href="http://travis-ci.org/stevieb9/p5-log-simple"><img src="https://secure.travis-ci.org/stevieb9/p5-log-simple.png"/>
-<a href='https://coveralls.io/github/stevieb9/p5-log-simple?branch=master'><img src='https://coveralls.io/repos/stevieb9/p5-log-simple/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
+<a href="http://travis-ci.org/stevieb9/p5-logging-simple"><img src="https://secure.travis-ci.org/stevieb9/p5-logging-simple.png"/>
+<a href='https://coveralls.io/github/stevieb9/p5-logging-simple?branch=master'><img src='https://coveralls.io/repos/stevieb9/p5-logging-simple/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
 
 =head1 SYNOPSIS
 
@@ -341,10 +341,6 @@ Logging::Simple - A simple but featureful logging mechanism.
 
 =head1 DESCRIPTION
 
-*** This is the first public release. The POD may be off a bit, and despite
-extensive CI testing on multiple platforms, there still may be a few small
-issues. ***
-
 Lightweight (core-only) and very simple yet powerful debug tool for printing or
 writing to file log type entries based on a configurable level (0-7).
 
@@ -367,18 +363,25 @@ details.
 
 =head2 Levels
 
-Verbosity and associated levels are:
+Verbosity levels and associated named equivalents:
 
 =over 4
 
-=item level 0, 'emergency|emerg'
-=item level 1, 'alert'
-=item level 2, 'critical|crit'
-=item level 3, 'error|err'
-=item level 4, 'warning|warn'
-=item level 5, 'notice'
-=item level 6, 'info'
-=item level 7, 'debug'
+=item   0, 'emergency|emerg'
+
+=item   1, 'alert'
+
+=item   2, 'critical|crit'
+
+=item   3, 'error|err'
+
+=item   4, 'warning|warn'
+
+=item   5, 'notice'
+
+=item   6, 'info'
+
+=item   7, 'debug'
 
 =back
 
@@ -395,50 +398,17 @@ Builds and returns a new C<Logging::Simple> object. All arguments are optional, 
 they can all be set using accessor methods after instantiation. These params
 are:
 
-=head3 name
+    name        => $str  # optional, default is undef
+    level       => $num  # default 4, options, 0..7
+    file        => $str  # optional, default undef, send in a filename
+    write_mode  => $str  # defaults to append, other option is 'write'
+    print       => $bool # default on, enable/disable output and return instead
+    display     => $bool # default on, enable/disable log message tags
 
-Default: undef
+Each of the above parameters have associated methods described below with more
+details.
 
-Specify a name for your log object. It will be displayed by default in the log
-output. The name of your program or module is a good choice.
-
-=head3 level => Integer
-
-Default: 4
-
-Specify the name or equivalent number (0-7) of the highest level to log. Note
-that this can be set in a C<LS_LEVEL> environment variable (and changed while
-your program is running).
-
-=head3 file => String
-
-Default: undef
-
-The name of a file to write log entries into. By default, we print to STDOUT.
-
-=head3 write_mode => Bool
-
-Default: 'a' (append)
-
-By default, we append to the chosen log file. Send in 'w' or 'write' to
-overwrite instead.
-
-=head3 print => Bool
-
-Default: 1 (enabled)
-
-If a false value is sent in (ie. 0), we'll disable printing the log entries,
-and return them as a string value instead on each call.
-
-=head3 display => Bool
-
-Default: enabled
-
-Send in a false value to disable all log entry tags, less the actual message.
-See C<display()> in L<METHODS> to learn how to enable and disable individual
-tags.
-
-=head2 level(Ingeger)
+=head2 level($num)
 
 Set and return the facility level. Will return the current value with a param
 sent in or not. It can be changed at any time. Note that you can set this with
@@ -451,29 +421,30 @@ By default, we write to STDOUT. Send in the name of a file to write there
 instead. Mode is optional; we'll append to the file by default. Send in 'w' or
 'write' to overwrite the file.
 
-=head2 display(HASH|Bool)
+=head2 display(%hash|$bool)
 
 List of log entry tags, and default printing status:
-    name  => 1, #specified in new() or name()
-    time  => 1,
+
+    name  => 1, # specified in new() or name()
+    time  => 1, # timestamp
     label => 1, # the string value of the level being called
     pid   => 0, # process ID
     proc  => 0, # "filename|line number" of the caller
 
-In HASH param mode, send in any or all of the tags with 1 (enable) or 0
+In hash param mode, send in any or all of the tags with 1 (enable) or 0
 (disable).
 
 You can also send in 1 to enable all of the tags, or 0 to disable them all.
 
-=head2 print(Bool)
+=head2 print($bool)
 
 Default is enabled. If disabled, we won't print at all, and instead, return the
 log entry as a scalar string value.
 
-=head2 child('name')
+=head2 child($name)
 
-This method will create a clone of the existing C<Logging::Simple> object, and then
-concatenate the parent's name with the optional name sent in here for easy
+This method will create a clone of the existing C<Logging::Simple> object, and
+then concatenate the parent's name with the optional name sent in here for easy
 identification in the logs.
 
 All settings employed by the parent will be used in the child, unless explicity
@@ -486,49 +457,49 @@ from there.
 
 =head1 LOGGING METHODS
 
-=head2 emergency
+=head2 emergency($msg)
 
 Level 0
 
 aka: C<_0()>, C<emerg()>
 
-=head2 alert
+=head2 alert($msg)
 
 Level 1
 
 aka: C<_1()>
 
-=head2 critical
+=head2 critical($msg)
 
 Level 2
 
 aka: C<_2()>, C<crit()>
 
-=head2 error
+=head2 error($msg)
 
 Level 3
 
 aka: C<_3()>, C<err()>
 
-=head2 warning
+=head2 warning($msg)
 
 Level 4
 
 aka: C<_4()>, C<warn()>
 
-=head2 notice
+=head2 notice($msg)
 
 Level 5
 
 aka: C<_5()>
 
-=head2 info
+=head2 info($msg)
 
 Level 6
 
 aka: C<_6()>
 
-=head2 debug
+=head2 debug($msg)
 
 Level 7
 
@@ -547,8 +518,7 @@ names, in numeric order from lowest to highest.
 
 =head2 timestamp
 
-Returns the current time in the following format: C<2016-03-17 17:51:02.241
->
+Returns the current time in the following format: C<2016-03-17 17:51:02.241>
 
 =head1 AUTHOR
 
@@ -557,11 +527,11 @@ Steve Bertrand, C<< <steveb at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-L<https://github.com/stevieb9/p5-log-simple/issues>
+L<https://github.com/stevieb9/p5-logging-simple/issues>
 
 =head1 REPOSITORY
 
-L<https://github.com/stevieb9/p5-log-simple>
+L<https://github.com/stevieb9/p5-logging-simple>
 
 =head1 BUILD RESULTS (THIS VERSION)
 

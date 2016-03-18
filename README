@@ -37,10 +37,6 @@ SYNOPSIS
 
 DESCRIPTION
 
-    *** This is the first public release. The POD may be off a bit, and
-    despite extensive CI testing on multiple platforms, there still may be
-    a few small issues. ***
-
     Lightweight (core-only) and very simple yet powerful debug tool for
     printing or writing to file log type entries based on a configurable
     level (0-7).
@@ -65,12 +61,23 @@ DESCRIPTION
 
  Levels
 
-    Verbosity and associated levels are:
+    Verbosity levels and associated named equivalents:
 
-    level 0, 'emergency|emerg' =item level 1, 'alert' =item level 2,
-    'critical|crit' =item level 3, 'error|err' =item level 4,
-    'warning|warn' =item level 5, 'notice' =item level 6, 'info' =item
-    level 7, 'debug'
+    0, 'emergency|emerg'
+
+    1, 'alert'
+
+    2, 'critical|crit'
+
+    3, 'error|err'
+
+    4, 'warning|warn'
+
+    5, 'notice'
+
+    6, 'info'
+
+    7, 'debug'
 
     Note that all named level methods have an associated _N method, so you
     don't have to remember the names at all. Using the numbers is often
@@ -87,51 +94,17 @@ METHODS
     optional, and they can all be set using accessor methods after
     instantiation. These params are:
 
-  name
+        name        => $str  # optional, default is undef
+        level       => $num  # default 4, options, 0..7
+        file        => $str  # optional, default undef, send in a filename
+        write_mode  => $str  # defaults to append, other option is 'write'
+        print       => $bool # default on, enable/disable output and return instead
+        display     => $bool # default on, enable/disable log message tags
 
-    Default: undef
+    Each of the above parameters have associated methods described below
+    with more details.
 
-    Specify a name for your log object. It will be displayed by default in
-    the log output. The name of your program or module is a good choice.
-
-  level => Integer
-
-    Default: 4
-
-    Specify the name or equivalent number (0-7) of the highest level to
-    log. Note that this can be set in a LS_LEVEL environment variable (and
-    changed while your program is running).
-
-  file => String
-
-    Default: undef
-
-    The name of a file to write log entries into. By default, we print to
-    STDOUT.
-
-  write_mode => Bool
-
-    Default: 'a' (append)
-
-    By default, we append to the chosen log file. Send in 'w' or 'write' to
-    overwrite instead.
-
-  print => Bool
-
-    Default: 1 (enabled)
-
-    If a false value is sent in (ie. 0), we'll disable printing the log
-    entries, and return them as a string value instead on each call.
-
-  display => Bool
-
-    Default: enabled
-
-    Send in a false value to disable all log entry tags, less the actual
-    message. See display() in METHODS to learn how to enable and disable
-    individual tags.
-
- level(Ingeger)
+ level($num)
 
     Set and return the facility level. Will return the current value with a
     param sent in or not. It can be changed at any time. Note that you can
@@ -144,25 +117,28 @@ METHODS
     there instead. Mode is optional; we'll append to the file by default.
     Send in 'w' or 'write' to overwrite the file.
 
- display(HASH|Bool)
+ display(%hash|$bool)
 
-    List of log entry tags, and default printing status: name => 1,
-    #specified in new() or name() time => 1, label => 1, # the string value
-    of the level being called pid => 0, # process ID proc => 0, #
-    "filename|line number" of the caller
+    List of log entry tags, and default printing status:
 
-    In HASH param mode, send in any or all of the tags with 1 (enable) or 0
+        name  => 1, # specified in new() or name()
+        time  => 1, # timestamp
+        label => 1, # the string value of the level being called
+        pid   => 0, # process ID
+        proc  => 0, # "filename|line number" of the caller
+
+    In hash param mode, send in any or all of the tags with 1 (enable) or 0
     (disable).
 
     You can also send in 1 to enable all of the tags, or 0 to disable them
     all.
 
- print(Bool)
+ print($bool)
 
     Default is enabled. If disabled, we won't print at all, and instead,
     return the log entry as a scalar string value.
 
- child('name')
+ child($name)
 
     This method will create a clone of the existing Logging::Simple object,
     and then concatenate the parent's name with the optional name sent in
@@ -178,49 +154,49 @@ METHODS
 
 LOGGING METHODS
 
- emergency
+ emergency($msg)
 
     Level 0
 
     aka: _0(), emerg()
 
- alert
+ alert($msg)
 
     Level 1
 
     aka: _1()
 
- critical
+ critical($msg)
 
     Level 2
 
     aka: _2(), crit()
 
- error
+ error($msg)
 
     Level 3
 
     aka: _3(), err()
 
- warning
+ warning($msg)
 
     Level 4
 
     aka: _4(), warn()
 
- notice
+ notice($msg)
 
     Level 5
 
     aka: _5()
 
- info
+ info($msg)
 
     Level 6
 
     aka: _6()
 
- debug
+ debug($msg)
 
     Level 7
 
@@ -241,7 +217,7 @@ HELPER METHODS
  timestamp
 
     Returns the current time in the following format: 2016-03-17
-    17:51:02.241 
+    17:51:02.241
 
 AUTHOR
 
@@ -250,11 +226,11 @@ AUTHOR
 BUGS
 
     Please report any bugs or feature requests to
-    https://github.com/stevieb9/p5-log-simple/issues
+    https://github.com/stevieb9/p5-logging-simple/issues
 
 REPOSITORY
 
-    https://github.com/stevieb9/p5-log-simple
+    https://github.com/stevieb9/p5-logging-simple
 
 BUILD RESULTS (THIS VERSION)
 
