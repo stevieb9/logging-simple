@@ -299,7 +299,7 @@ __END__
 
 =head1 NAME
 
-Logging::Simple - A simple but featureful logging mechanism.
+Logging::Simple - A simple but flexible logging mechanism.
 
 =for html
 <a href="http://travis-ci.org/stevieb9/p5-logging-simple"><img src="https://secure.travis-ci.org/stevieb9/p5-logging-simple.png"/>
@@ -318,6 +318,7 @@ Logging::Simple - A simple but featureful logging mechanism.
     $log->_7("this is debug(). Default level is 4, so this won't print");
 
     $log->level(7);
+
     $log->debug("same as _7(). It'll print now");
 
     $log->file('file.log');
@@ -341,7 +342,7 @@ Logging::Simple - A simple but featureful logging mechanism.
 
 =head1 DESCRIPTION
 
-Lightweight (core-only) and very simple yet powerful debug tool for printing or
+Lightweight (core-only) and very simple yet flexible debug tool for printing or
 writing to file log type entries based on a configurable level (0-7).
 
 It provides the ability to programmatically change which output tags to display,
