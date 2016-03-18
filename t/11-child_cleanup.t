@@ -24,13 +24,11 @@ my %files = (f1 => $f1, f2 => $f2, f3 => $f3, p => $parent);
     my @append = <$append_fh>;
     close $append_fh;
 
-    use feature 'say';
-
-#    is (@base, @append, "appended file is same as base file");
+    is (@base, @append, "appended file is same as base file");
 
     my $i = 0;
     for (@append){
-#        is ($_, $base[$i], "line $_ in parent/child append file ok");
+        is ($_, $base[$i], "line $_ in parent/child append file ok");
         $i++;
     }
 
