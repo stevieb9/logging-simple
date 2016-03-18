@@ -29,7 +29,7 @@ my $mod = 'Log::Simple';
 
     { # write
         my $log = $mod->new;
-        $log->file($fn);
+        $log->file($fn, 'w');
         print { $log->{fh} } "abc";
         $log->file(0);
         my $ret = _fetch($fn);
@@ -37,7 +37,7 @@ my $mod = 'Log::Simple';
     }
     { # overwrite check
         my $log = $mod->new;
-        $log->file($fn);
+        $log->file($fn, 'w');
         print { $log->{fh} } "def";
         $log->file(0);
         my $ret = _fetch($fn);

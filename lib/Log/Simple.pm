@@ -76,7 +76,23 @@ sub new {
     my $print = defined $args{print} ? $args{print} : 1;
     $self->print($print);
 
+    $self->display(
+            time  => 1,
+            label => 1,
+            name  => 1,
+            pid   => 0,
+            proc  => 0,
+    );
 
+    if (defined $args{display}){
+        $self->display($args{display});
+    }
+
+    $self->name($args{name});
+
+    return $self;
+}
+sub level {
     my ($self, $level) = @_;
 
     my %levels = $self->levels;
@@ -116,7 +132,7 @@ sub file {
     if (defined $file && $self->{file} && $file ne $self->{file}){
         close $self->{fh};
     }
-    $mode = 'w' if ! defined $mode;
+    $mode = 'a' if ! defined $mode;
     my $op = $mode =~ /^a/ ? '>>' : '>';
 
     open $self->{fh}, $op, $file or die "can't open log file for writing: $!";
@@ -155,7 +171,15 @@ sub levels {
             push @level_list, $levels{$_};
         }
         return @level_list;
+    }
 
+    return %levels;
+}
+sub display {
+    my $self = shift;
+    my ($tag, %tags);
+
+    if (@_ == 1){
         $tag = shift;
     }
     else {
@@ -367,8 +391,6 @@ Builds and returns a new C<Log::Simple> object. All arguments are optional, and
 they can all be set using accessor methods after instantiation. These params
 are:
 
-=over 4
-
 =head3 name
 
 Default: undef
@@ -411,8 +433,6 @@ Default: enabled
 Send in a false value to disable all log entry tags, less the actual message.
 See C<display()> in L<METHODS> to learn how to enable and disable individual
 tags.
-
-=back
 
 =head2 level(Ingeger)
 

@@ -20,9 +20,7 @@ my $f4 = 't/working/four.log';
 { # append file
     my $log = $mod->new(
         file       => $fn,
-        write_mode => 'a',
-        name       =>
-        'parent',
+        name       => 'parent',
         level      => 7
     );
     $log->display(time => 0);
@@ -67,9 +65,8 @@ my $f4 = 't/working/four.log';
 
     my $log = $mod->new(
         file       => $parent,
-        write_mode => 'a',
-        name       =>
-        'parent',
+        name       => 'parent',
+        write_mode => 'w',
         level      => 7
     );
     $log->display(time => 0);
@@ -89,26 +86,26 @@ my $f4 = 't/working/four.log';
     }
     sub one1 {
         my $log = $log->child( 'one' );
-        $log->file($f1);
+        $log->file($f1, 'w');
         my $x = shift;
         $log->info( $x );
     }
     sub two1 {
         my $log = $log->child( 'two' );
-        $log->file($f2);
+        $log->file($f2, 'w');
         my $x = shift;
         $log->info( $x );
         $log->debug( $x );
     }
     sub three1 {
         my $log = $log->child( 'three' );
-        $log->file($f3);
+        $log->file($f3, 'w');
         $log->info( shift );
         $log->emerg( shift );
     }
     sub four1 {
         my $log = $log->child( 'four' );
-        $log->file($f4);
+        $log->file($f4, 'w');
         $log->info( shift );
         $log->_2( shift );
     }
