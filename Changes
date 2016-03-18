@@ -1,4 +1,7 @@
-Revision history for Perl extension Log::Simple
+Revision history for Perl extension Logging::Simple
+
+0.06    20160316
+        - renamed to Logging::Simple due to search.cpan.org name clash
 
 0.05    20160316
         - 100% test coverage
@@ -42,7 +45,7 @@ Revision history for Perl extension Log::Simple
 
 0.01    20160315
         - initial version
-        - cloned (manually) from Log::Basic and renamed to Log::Simple
+        - cloned (manually) from Log::Basic and renamed to Logging::Simple
         - added file() and level() methods
         - renamed now() to time()
         - added tests for load and init

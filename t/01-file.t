@@ -4,9 +4,9 @@ use warnings;
 
 use File::Temp;
 use Test::More;
-use Log::Simple;
+use Logging::Simple;
 
-my $mod = 'Log::Simple';
+my $mod = 'Logging::Simple';
 
 { # open/close
     my $log = $mod->new;

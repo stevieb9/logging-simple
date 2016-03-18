@@ -2,13 +2,13 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-use Log::Simple;
+use Logging::Simple;
 use Test::More;
 
-my $mod = 'Log::Simple';
+my $mod = 'Logging::Simple';
 
 { # entire list
-    my $log = Log::Simple->new;
+    my $log = Logging::Simple->new;
 
     my %h = $log->display;
     is (keys %h, 5, "display() with no params returns the correct hash");
@@ -23,11 +23,11 @@ my $mod = 'Log::Simple';
     }
 }
 { # all
-    my $log = Log::Simple->new;
+    my $log = Logging::Simple->new;
     is ($log->display(1), 1, "display() returns true with '1' param");
 }
 { # get single
-    my $log = Log::Simple->new;
+    my $log = Logging::Simple->new;
 
     my %ret = $log->display(pid => 0, label => 0, time => 0, proc => 0);
 
@@ -39,7 +39,7 @@ my $mod = 'Log::Simple';
     }
 }
 { # invalid display tag
-    my $log = Log::Simple->new;
+    my $log = Logging::Simple->new;
 
     my $warn;
     local $SIG{__WARN__} = sub { $warn = shift; };

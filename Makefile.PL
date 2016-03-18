@@ -4,9 +4,9 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME             => 'Log::Simple',
+    NAME             => 'Logging::Simple',
     AUTHOR           => q{Steve Bertrand <steveb@cpan.org>},
-    VERSION_FROM     => 'lib/Log/Simple.pm',
+    VERSION_FROM     => 'lib/Logging/Simple.pm',
     META_MERGE => {
         'meta-spec' => { version => 2 },
         resources   => {
@@ -20,7 +20,7 @@ WriteMakefile(
             },
         },
     },
-    ABSTRACT_FROM    => 'lib/Log/Simple.pm',
+    ABSTRACT_FROM    => 'lib/Logging/Simple.pm',
     LICENSE          => 'perl_5',
     PL_FILES         => {},
     MIN_PERL_VERSION => 5.008,

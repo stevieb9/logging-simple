@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-use Log::Simple;
+use Logging::Simple;
 use Test::More;
 
 my @labels = qw(emergency alert critical error warning notice info debug);
@@ -11,7 +11,7 @@ my @short = qw(emerg crit err warn);
 my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
 
 { # test named methods
-    my $log = Log::Simple->new(print => 0, name => 'Log::Simple');
+    my $log = Logging::Simple->new(print => 0, name => 'Logging::Simple');
 
     my @msgs;
 
@@ -26,7 +26,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     is (@msgs, 5, "with default level, long names has ok msg count");
 }
 { # test short methods
-    my $log = Log::Simple->new(print => 0, name => 'Log::Simple');
+    my $log = Logging::Simple->new(print => 0, name => 'Logging::Simple');
 
     my @msgs;
 
@@ -41,7 +41,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     is (@msgs, 4, "with default level, short names has proper msg count");
 }
 { # test num methods
-    my $log = Log::Simple->new(print => 0, name => 'Log::Simple');
+    my $log = Logging::Simple->new(print => 0, name => 'Logging::Simple');
 
     my @msgs;
 
@@ -59,7 +59,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     is (@msgs, 5, "with default level, nums has proper msg count");
 }
 { # dyn methods reset level from ENV
-    my $log = Log::Simple->new(print => 0, name => 'Log::Simple');
+    my $log = Logging::Simple->new(print => 0, name => 'Logging::Simple');
 
     my $subs = $log->_sub_names;
 
@@ -72,7 +72,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     }
 }
 { # output with disabled display() in new()
-    my $log = Log::Simple->new(print => 0, display => 0);
+    my $log = Logging::Simple->new(print => 0, display => 0);
 
     my $subs = $log->_sub_names;
 
@@ -84,7 +84,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     }
 }
 { # output with enabled display() in new()
-    my $log = Log::Simple->new(print => 0, display => 1, name => 'Log::Simple');
+    my $log = Logging::Simple->new(print => 0, display => 1, name => 'Logging::Simple');
 
     my $subs = $log->_sub_names;
 
@@ -101,7 +101,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     }
 }
 { # output with display(0)
-    my $log = Log::Simple->new(print => 0, name => 'Log::Simple');
+    my $log = Logging::Simple->new(print => 0, name => 'Logging::Simple');
 
     $log->display(0);
     my $subs = $log->_sub_names;
@@ -114,7 +114,7 @@ my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
     }
 }
 { # output with display(1)
-    my $log = Log::Simple->new(print => 0, name => 'Log::Simple');
+    my $log = Logging::Simple->new(print => 0, name => 'Logging::Simple');
 
     $log->display(1);
     my $subs = $log->_sub_names;

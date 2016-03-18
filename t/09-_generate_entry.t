@@ -2,10 +2,10 @@
 use strict;
 use warnings;
 
-use Log::Simple;
+use Logging::Simple;
 use Test::More;
 
-my $mod = 'Log::Simple';
+my $mod = 'Logging::Simple';
 
 { # bad label
     my $log = $mod->new(print => 0);
@@ -21,7 +21,7 @@ my $mod = 'Log::Simple';
 { # display with name param
     my $log = $mod->new(print => 0, name => $mod);
     my $msg = $log->_generate_entry(label => 'info', msg => 'test');
-    like ($msg, qr/\[.*?\]\[info\]\[Log::Simple\] test/, "display with name ok");
+    like ($msg, qr/\[.*?\]\[info\]\[Logging::Simple\] test/, "display with name ok");
 }
 done_testing();
 

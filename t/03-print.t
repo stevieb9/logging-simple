@@ -3,13 +3,13 @@ use strict;
 use warnings;
 
 use File::Temp;
-use Log::Simple;
+use Logging::Simple;
 use Test::More;
 
-my $mod = 'Log::Simple';
+my $mod = 'Logging::Simple';
 
 { # set/get
-    my $log = Log::Simple->new;
+    my $log = Logging::Simple->new;
 
     is ($log->print, 1, "printing is enabled by default");
     $log->print(0);
@@ -18,7 +18,7 @@ my $mod = 'Log::Simple';
     is ($log->print, 1, "...and enabled again");
 }
 { # print vs return
-    my $log = Log::Simple->new;
+    my $log = Logging::Simple->new;
 
     my $fn = _fname();
     $log->file($fn);

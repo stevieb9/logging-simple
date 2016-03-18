@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Log::Simple;
+use Logging::Simple;
 use Test::More;
 
 
@@ -14,7 +14,7 @@ my @all;
 
 push @all, @labels, @short, @nums;
 
-my $log = Log::Simple->new;
+my $log = Logging::Simple->new;
 
 my $subs = $log->_sub_names;
 

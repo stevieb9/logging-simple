@@ -1,4 +1,4 @@
-package Log::Simple;
+package Logging::Simple;
 use 5.007;
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use Carp qw(croak);
 use POSIX qw(strftime);
 use Time::HiRes qw(time);
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 BEGIN {
 
@@ -299,7 +299,7 @@ __END__
 
 =head1 NAME
 
-Log::Simple - A simple but featureful logging mechanism.
+Logging::Simple - A simple but featureful logging mechanism.
 
 =for html
 <a href="http://travis-ci.org/stevieb9/p5-log-simple"><img src="https://secure.travis-ci.org/stevieb9/p5-log-simple.png"/>
@@ -307,9 +307,9 @@ Log::Simple - A simple but featureful logging mechanism.
 
 =head1 SYNOPSIS
 
-    use Log::Simple;
+    use Logging::Simple;
 
-    my $log = Log::Simple->new(name => 'whatever'); # name is optional
+    my $log = Logging::Simple->new(name => 'whatever'); # name is optional
 
     $log->warning("default level (4)");
 
@@ -353,7 +353,7 @@ provides numbered methods so you don't have to remember the name to number
 level translation, provides the ability to create descendent children, easily
 enable/disable file output, levels, display etc.
 
-=head2 Log entry format
+=head2 Logging entry format
 
 By default, log entries appear as such, with a timestamp, the name of the
 facility, the name (if specified in the constructor) and finally the actual
@@ -391,7 +391,7 @@ Setting the C<level> will display all messages related to that level and below.
 
 =head2 new(%args)
 
-Builds and returns a new C<Log::Simple> object. All arguments are optional, and
+Builds and returns a new C<Logging::Simple> object. All arguments are optional, and
 they can all be set using accessor methods after instantiation. These params
 are:
 
@@ -472,7 +472,7 @@ log entry as a scalar string value.
 
 =head2 child('name')
 
-This method will create a clone of the existing C<Log::Simple> object, and then
+This method will create a clone of the existing C<Logging::Simple> object, and then
 concatenate the parent's name with the optional name sent in here for easy
 identification in the logs.
 
@@ -565,13 +565,13 @@ L<https://github.com/stevieb9/p5-log-simple>
 
 =head1 BUILD RESULTS (THIS VERSION)
 
-CPAN Testers: L<http://matrix.cpantesters.org/?dist=Log-Simple>
+CPAN Testers: L<http://matrix.cpantesters.org/?dist=Logging-Simple>
 
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Log::Simple
+    perldoc Logging::Simple
 
 =head1 SEE ALSO
 

@@ -2,10 +2,10 @@
 use strict;
 use warnings;
 
-use Log::Simple;
+use Logging::Simple;
 use Test::More;
 
-my $mod = 'Log::Simple';
+my $mod = 'Logging::Simple';
 
 { # return
 

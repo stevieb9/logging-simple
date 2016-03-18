@@ -2,9 +2,9 @@ use strict;
 use warnings;
 
 use Test::More;
-BEGIN { use_ok('Log::Simple') };
+BEGIN { use_ok('Logging::Simple') };
 
-my $mod = 'Log::Simple';
+my $mod = 'Logging::Simple';
 
 can_ok($mod, 'new');
 can_ok($mod, 'file');

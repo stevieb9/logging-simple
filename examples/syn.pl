@@ -2,9 +2,9 @@
 use strict;
 use warnings;
 
-use Log::Simple;
+use Logging::Simple;
 
-my $log = Log::Simple->new(name => 'whatever');
+my $log = Logging::Simple->new(name => 'whatever');
 
 $log->warning("this shouldn't happen");
 $log->_4("all levels can be called by number. This is warning()");

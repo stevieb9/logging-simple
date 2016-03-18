@@ -5,7 +5,7 @@ use warnings;
 use File::Temp;
 use Test::More;
 
-my $mod = 'Log::Simple';
+my $mod = 'Logging::Simple';
 use_ok($mod);
 
 { # obj is in correct class

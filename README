@@ -1,12 +1,12 @@
 NAME
 
-    Log::Simple - A simple but featureful logging mechanism.
+    Logging::Simple - A simple but featureful logging mechanism.
 
 SYNOPSIS
 
-        use Log::Simple;
+        use Logging::Simple;
     
-        my $log = Log::Simple->new(name => 'whatever'); # name is optional
+        my $log = Logging::Simple->new(name => 'whatever'); # name is optional
     
         $log->warning("default level (4)");
     
@@ -51,7 +51,7 @@ DESCRIPTION
     descendent children, easily enable/disable file output, levels, display
     etc.
 
- Log entry format
+ Logging entry format
 
     By default, log entries appear as such, with a timestamp, the name of
     the facility, the name (if specified in the constructor) and finally
@@ -83,7 +83,7 @@ METHODS
 
  new(%args)
 
-    Builds and returns a new Log::Simple object. All arguments are
+    Builds and returns a new Logging::Simple object. All arguments are
     optional, and they can all be set using accessor methods after
     instantiation. These params are:
 
@@ -164,9 +164,9 @@ METHODS
 
  child('name')
 
-    This method will create a clone of the existing Log::Simple object, and
-    then concatenate the parent's name with the optional name sent in here
-    for easy identification in the logs.
+    This method will create a clone of the existing Logging::Simple object,
+    and then concatenate the parent's name with the optional name sent in
+    here for easy identification in the logs.
 
     All settings employed by the parent will be used in the child, unless
     explicity changed via the methods.
@@ -175,6 +175,56 @@ METHODS
     all subs, create a child with the sub's name to easily identify flow
     within the log. In an OO project, stuff the parent log into the main
     object, and clone it from there.
+
+LOGGING METHODS
+
+ emergency
+
+    Level 0
+
+    aka: _0(), emerg()
+
+ alert
+
+    Level 1
+
+    aka: _1()
+
+ critical
+
+    Level 2
+
+    aka: _2(), crit()
+
+ error
+
+    Level 3
+
+    aka: _3(), err()
+
+ warning
+
+    Level 4
+
+    aka: _4(), warn()
+
+ notice
+
+    Level 5
+
+    aka: _5()
+
+ info
+
+    Level 6
+
+    aka: _6()
+
+ debug
+
+    Level 7
+
+    aka: _7()
 
 HELPER METHODS
 
@@ -208,13 +258,13 @@ REPOSITORY
 
 BUILD RESULTS (THIS VERSION)
 
-    CPAN Testers: http://matrix.cpantesters.org/?dist=Log-Simple
+    CPAN Testers: http://matrix.cpantesters.org/?dist=Logging-Simple
 
 SUPPORT
 
     You can find documentation for this module with the perldoc command.
 
-        perldoc Log::Simple
+        perldoc Logging::Simple
 
 SEE ALSO
 
