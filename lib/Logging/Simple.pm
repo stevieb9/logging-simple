@@ -7,7 +7,7 @@ use Carp qw(croak);
 use POSIX qw(strftime);
 use Time::HiRes qw(time);
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 BEGIN {
 
