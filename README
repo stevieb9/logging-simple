@@ -216,6 +216,12 @@ SUPPORT
 
         perldoc Log::Simple
 
+SEE ALSO
+
+    There are too many other logging modules to list here, but the idea for
+    this one came from Log::Basic. However, this one was written completely
+    from scratch.
+
 LICENSE AND COPYRIGHT
 
     Copyright 2016 Steve Bertrand.

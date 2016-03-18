@@ -523,6 +523,12 @@ You can find documentation for this module with the perldoc command.
 
     perldoc Log::Simple
 
+=head1 SEE ALSO
+
+There are too many other logging modules to list here, but the idea for this
+one came from L<Log::Basic>. However, this one was written completely from
+scratch.
+
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2016 Steve Bertrand.
