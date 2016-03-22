@@ -10,6 +10,8 @@ Revision history for Perl extension Logging::Simple
         - fixed repo/bug links due to repo name change
         - we can now log specific levels only by prepending the level with a
           '=' in the call to level() (closes #21)
+        - added more tests to ensure multi-hierarchy children objects do the
+          right thing (closes #19)
 
 0.06    20160317
         - renamed to Logging::Simple due to search.cpan.org name clash
