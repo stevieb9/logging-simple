@@ -39,8 +39,15 @@ BEGIN {
                 $self->level($ENV{LS_LEVEL}) if defined $ENV{LS_LEVEL};
 
                 if ($sub =~ /^_(\d)$/){
+                    if (defined $self->_log_only){
+                        return if $1 != $self->_log_only;
+                    }
                     return if $1 > $self->level;
                 }
+                if (defined $self->_log_only){
+                    return if $self->_level_value($sub) != $self->_log_only;
+                }
+
                 return if $self->_level_value($sub) > $self->level;
 
                 my $proc = join '|', (caller(0))[1..2];
@@ -101,7 +108,14 @@ sub level {
     $self->{level} = $ENV{LS_LEVEL} if defined $ENV{LS_LEVEL};
     my $lvl;
 
-    if (defined $level) {
+    if (defined $level){
+
+        my $log_only;
+
+        if ($level =~ /^=/){
+            $level =~ s/=//;
+            $log_only = 1;
+        }
         if ($level =~ /^\d$/ && defined $levels{$level}){
             $self->{level} = $level;
         }
@@ -112,7 +126,15 @@ sub level {
             CORE::warn
                 "invalid level $level specified, using default 'warning'/4\n";
         }
+
+        if ($log_only){
+            $self->_log_only($self->{level});
+        }
+        else {
+            $self->_log_only(-1);
+        }
     }
+
     return $self->{level};
 }
 sub file {
@@ -309,7 +331,16 @@ sub _generate_entry {
         print $log_entry;
     }
 }
-
+sub _log_only {
+    my ($self, $level) = @_;
+    if (defined $level && $level == -1){
+        $self->{log_only} = undef;
+    }
+    else {
+        $self->{log_only} = $level if defined $level;
+    }
+    return $self->{log_only};
+}
 1;
 __END__
 
@@ -336,6 +367,9 @@ Logging::Simple - A simple but flexible logging mechanism.
     $log->level(7);
 
     $log->debug("same as _7(). It'll print now");
+
+    $log->level('=3');
+    $log->_3("with a prepending '=' on level, we'll log this level ONLY");
 
     $log->file('file.log');
     $log->info("this will go to file");

@@ -18,6 +18,9 @@ SYNOPSIS
     
         $log->debug("same as _7(). It'll print now");
     
+        $log->level('=3');
+        $log->_3("with a prepending '=' on level, we'll log this level ONLY");
+    
         $log->file('file.log');
         $log->info("this will go to file");
         $log->file(0); # back to STDOUT

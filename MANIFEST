@@ -18,6 +18,8 @@ t/08-_sub_names.t
 t/09-_generate_entry.t
 t/10-child.t
 t/11-child_cleanup.t
+t/12-verify_output.t
+t/13-log_only.t
 t/base/child.log
 t/base/four.log
 t/base/one.log

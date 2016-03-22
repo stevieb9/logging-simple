@@ -8,6 +8,8 @@ Revision history for Perl extension Logging::Simple
           entry with, and disable with 0 (closes #23)
         - several POD fixes/updates
         - fixed repo/bug links due to repo name change
+        - we can now log specific levels only by prepending the level with a
+          '=' in the call to level() (closes #21)
 
 0.06    20160317
         - renamed to Logging::Simple due to search.cpan.org name clash
