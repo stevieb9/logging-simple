@@ -6,7 +6,7 @@ use File::Temp;
 use Logging::Simple;
 use Test::More;
 
-is (mkdir('t/working'), 1, "created working dir ok");
+#is (mkdir('t/working'), 1, "created working dir ok");
 
 my $mod = 'Logging::Simple';
 
@@ -109,5 +109,18 @@ my $f4 = 't/working/four.log';
         $log->info( shift );
         $log->_2( shift );
     }
+}
+{ # child subclassing
+    my $msg;
+
+    my $log = Logging::Simple->new(name => 'parent', print => 0);
+    $log->display(0);
+    $log->display(name => 1);
+
+    my $c = $log->child('child');
+    like ($c->_0("msg"), qr/\[parent\.child\]/, "first child ok");
+
+    my $c1 = $c->child('c1');
+    like ($c1->_0("msg"), qr/\[parent\.child\.c1\]/, "2nd child ok");
 }
 done_testing();
