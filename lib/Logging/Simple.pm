@@ -3,7 +3,7 @@ use 5.007;
 use strict;
 use warnings;
 
-use Carp qw(croak);
+use Carp qw(croak confess);
 use POSIX qw(strftime);
 use Time::HiRes qw(time);
 
@@ -269,6 +269,12 @@ sub custom_display {
     }
     return $self->{custom_display};
 }
+sub fatal {
+    my ($self, $msg) = @_;
+
+    $self->display(1);
+    confess("\n" . $self->_0("$msg"));
+}
 sub _level_value {
     my ($self, $level) = @_;
 
@@ -370,6 +376,8 @@ Logging::Simple - A simple but flexible logging mechanism.
 
     $log->level('=3');
     $log->_3("with a prepending '=' on level, we'll log this level ONLY");
+
+    $log->fatal("log a message along with confess() output, and terminate");
 
     $log->file('file.log');
     $log->info("this will go to file");
@@ -486,6 +494,11 @@ In hash param mode, send in any or all of the tags with 1 (enable) or 0
 (disable).
 
 You can also send in 1 to enable all of the tags, or 0 to disable them all.
+
+=head2 fatal($msg)
+
+Log the message, along with the trace C<confess()> produces, and die
+immediately.
 
 =head2 custom_display($str|$false)
 
