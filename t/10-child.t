@@ -6,7 +6,7 @@ use File::Temp;
 use Logging::Simple;
 use Test::More;
 
-#is (mkdir('t/working'), 1, "created working dir ok");
+is (mkdir('t/working'), 1, "created working dir ok");
 
 my $mod = 'Logging::Simple';
 
