@@ -23,6 +23,8 @@ SYNOPSIS
     
         $log->fatal("log a message along with confess() output, and terminate");
     
+        $log->level(-1); # disables all levels from doing anything
+    
         $log->file('file.log');
         $log->info("this will go to file");
         $log->file(0); # back to STDOUT
@@ -69,6 +71,8 @@ DESCRIPTION
 
     Verbosity levels and associated named equivalents:
 
+    -1, disables all levels
+
     0, 'emergency|emerg'
 
     1, 'alert'
@@ -101,7 +105,7 @@ METHODS
     instantiation. These params are:
 
         name        => $str  # optional, default is undef
-        level       => $num  # default 4, options, 0..7
+        level       => $num  # default 4, options, 0..7, -1 to disable all
         file        => $str  # optional, default undef, send in a filename
         write_mode  => $str  # defaults to append, other option is 'write'
         print       => $bool # default on, enable/disable output and return instead

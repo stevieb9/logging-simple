@@ -36,6 +36,8 @@ BEGIN {
             *$_ = sub {
                 my ($self, $msg) = @_;
 
+                return if $self->level == -1;
+
                 $self->level($ENV{LS_LEVEL}) if defined $ENV{LS_LEVEL};
 
                 if ($sub =~ /^_(\d)$/){
@@ -108,7 +110,10 @@ sub level {
     $self->{level} = $ENV{LS_LEVEL} if defined $ENV{LS_LEVEL};
     my $lvl;
 
-    if (defined $level){
+    if (defined $level && $level == -1){
+        $self->{level} = $level;
+    }
+    elsif (defined $level){
 
         my $log_only;
 
@@ -379,6 +384,8 @@ Logging::Simple - A simple but flexible logging mechanism.
 
     $log->fatal("log a message along with confess() output, and terminate");
 
+    $log->level(-1); # disables all levels from doing anything
+
     $log->file('file.log');
     $log->info("this will go to file");
     $log->file(0); # back to STDOUT
@@ -426,6 +433,8 @@ Verbosity levels and associated named equivalents:
 
 =over 4
 
+=item   -1, disables all levels
+
 =item   0, 'emergency|emerg'
 
 =item   1, 'alert'
@@ -458,7 +467,7 @@ they can all be set using accessor methods after instantiation. These params
 are:
 
     name        => $str  # optional, default is undef
-    level       => $num  # default 4, options, 0..7
+    level       => $num  # default 4, options, 0..7, -1 to disable all
     file        => $str  # optional, default undef, send in a filename
     write_mode  => $str  # defaults to append, other option is 'write'
     print       => $bool # default on, enable/disable output and return instead

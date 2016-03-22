@@ -13,6 +13,8 @@ Revision history for Perl extension Logging::Simple
         - added more tests to ensure multi-hierarchy children objects do the
           right thing (closes #19)
         - added fatal(), which uses confess() (closes #18)
+        - level -1 added, which disables all logging at all levels altogether,
+          can be sent into new(), or set in level() (closes #8)
 
 0.06    20160317
         - renamed to Logging::Simple due to search.cpan.org name clash
