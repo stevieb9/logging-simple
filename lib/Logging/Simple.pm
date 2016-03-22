@@ -110,7 +110,7 @@ sub level {
     $self->{level} = $ENV{LS_LEVEL} if defined $ENV{LS_LEVEL};
     my $lvl;
 
-    if (defined $level && $level == -1){
+    if (defined $level && $level =~ /^-1$/){
         $self->{level} = $level;
     }
     elsif (defined $level){
