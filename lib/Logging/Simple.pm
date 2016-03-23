@@ -352,6 +352,7 @@ sub _log_only {
     }
     return $self->{log_only};
 }
+
 1;
 __END__
 
@@ -458,7 +459,7 @@ have to remember the names at all. Using the numbers is often much easier.
 
 Setting the C<level> will display all messages related to that level and below.
 
-=head1 METHODS
+=head1 INITIALIZATION METHODS
 
 =head2 new(%args)
 

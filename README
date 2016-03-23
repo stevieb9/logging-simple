@@ -96,7 +96,7 @@ DESCRIPTION
     Setting the level will display all messages related to that level and
     below.
 
-METHODS
+INITIALIZATION METHODS
 
  new(%args)
 

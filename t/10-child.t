@@ -129,4 +129,5 @@ my $f4 = 't/working/four.log';
     my $c1c3 = $c1->child('c3');
     is ($c1c3->_0, "[parent.child.c1.c3] \n", "c1->c3 child ok");
 }
+
 done_testing();
