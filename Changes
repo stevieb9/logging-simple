@@ -1,13 +1,6 @@
 Revision history for Perl extension Logging::Simple
 
-0.07    20160318
-        - fix undef issue in child() if the parent didn't have a name
-        - added tests to ensure subs run only at appropriate levels (parent and
-          children) (closes #9)
-        - added custom_display(), send in whatever you want to prepend the log
-          entry with, and disable with 0 (closes #23)
-        - several POD fixes/updates
-        - fixed repo/bug links due to repo name change
+0.09    20160322
         - we can now log specific levels only by prepending the level with a
           '=' in the call to level() (closes #21)
         - added more tests to ensure multi-hierarchy children objects do the
@@ -15,6 +8,17 @@ Revision history for Perl extension Logging::Simple
         - added fatal(), which uses confess() (closes #18)
         - level -1 added, which disables all logging at all levels altogether,
           can be sent into new(), or set in level() (closes #8)
+
+0.08    20160321
+        - added custom_display(), send in whatever you want to prepend the log
+          entry with, and disable with 0 (closes #23)
+        - several POD fixes/updates
+
+0.07    20160318
+        - fix undef issue in child() if the parent didn't have a name
+        - added tests to ensure subs run only at appropriate levels (parent and
+          children) (closes #9)
+        - fixed repo/bug links due to repo name change
 
 0.06    20160317
         - renamed to Logging::Simple due to search.cpan.org name clash

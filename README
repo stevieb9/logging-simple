@@ -143,11 +143,6 @@ INITIALIZATION METHODS
     You can also send in 1 to enable all of the tags, or 0 to disable them
     all.
 
- fatal($msg)
-
-    Log the message, along with the trace confess() produces, and die
-    immediately.
-
  custom_display($str|$false)
 
     This will create a custom tag in your output, and place it at the first
@@ -221,6 +216,11 @@ LOGGING METHODS
     Level 7
 
     aka: _7()
+
+ fatal($msg)
+
+    Log the message, along with the trace confess() produces, and die
+    immediately.
 
 HELPER METHODS
 

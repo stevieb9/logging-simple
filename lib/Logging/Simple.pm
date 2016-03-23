@@ -7,7 +7,7 @@ use Carp qw(croak confess);
 use POSIX qw(strftime);
 use Time::HiRes qw(time);
 
-our $VERSION = '0.07';
+our $VERSION = '0.10';
 
 BEGIN {
 
@@ -505,11 +505,6 @@ In hash param mode, send in any or all of the tags with 1 (enable) or 0
 
 You can also send in 1 to enable all of the tags, or 0 to disable them all.
 
-=head2 fatal($msg)
-
-Log the message, along with the trace C<confess()> produces, and die
-immediately.
-
 =head2 custom_display($str|$false)
 
 This will create a custom tag in your output, and place it at the first column
@@ -583,6 +578,11 @@ aka: C<_6()>
 Level 7
 
 aka: C<_7()>
+
+=head2 fatal($msg)
+
+Log the message, along with the trace C<confess()> produces, and die
+immediately.
 
 =head1 HELPER METHODS
 
