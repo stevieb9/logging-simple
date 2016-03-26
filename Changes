@@ -1,5 +1,9 @@
 Revision history for Perl extension Logging::Simple
 
+0.10_01 20160326
+        - added t/testrules.yml, for some reason, on some CPAN Testers, the
+          tests were being run out of order, effectively breaking them
+
 0.09    20160322
         - we can now log specific levels only by prepending the level with a
           '=' in the call to level() (closes #21)
