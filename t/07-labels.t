@@ -23,8 +23,17 @@ my $mod = 'Logging::Simple';
 
     %labels = $log->levels;
 
-    use Data::Dumper;
-    print Dumper \%labels;
+    for (0..7){
+        is ($labels{$_}, $custom[$_], "lvl $_ has custom label $custom[$_]");
+    }
+
+    $log->labels(0);
+
+    %labels = $log->levels;
+
+    for (0..7){
+        is ($labels{$_}, $default{$_}, "default labels ok after labels(0)");
+    }
 }
 
 sub _default_labels {

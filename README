@@ -1,6 +1,6 @@
 NAME
 
-    Logging::Simple - A simple but flexible logging mechanism.
+    Logging::Simple - Simple logging with customizable display and labels
 
 SYNOPSIS
 
@@ -8,40 +8,50 @@ SYNOPSIS
     
         my $log = Logging::Simple->new(name => 'whatever'); # name is optional
     
-        $log->warning("default level (4)");
-    
-        $log->_4("all levels can be called by number. This is warning()");
-    
-        $log->_7("this is debug(). Default level is 4, so this won't print");
+        $log->_4("default level (4)");
+        $log->_7("Default level is 4, so this won't print");
     
         $log->level(7);
     
-        $log->debug("same as _7(). It'll print now");
+        $log->_7("It'll print now");
+    
+        # log only a single level
     
         $log->level('=3');
-        $log->_3("with a prepending '=' on level, we'll log this level ONLY");
     
-        $log->fatal("log a message along with confess() output, and terminate");
+        # disable all levels
     
-        $log->level(-1); # disables all levels from doing anything
+        $log->level(-1);
+    
+        # log to a file
     
         $log->file('file.log');
-        $log->info("this will go to file");
+        $log->_0("this will go to file");
         $log->file(0); # back to STDOUT
     
-        $log->_6("info facility, example output");
-        #[2016-03-17 16:49:32.491][info][whatever] info facility, example output
+        # log to a scalar
     
-        $log->display(0);
-        $log->info("display(0) disables all output but this msg");
-        $log->info("see display() method for disabling, enabling individual tags");
+        $log->file(\$string);
     
-        $log->display(1);
-        $log->info("all tags enabled");
-        #[2016-03-17 16:52:06.356][info][whatever][5689][t/syn.pl|29] all tags enabled
+        # don't print, return instead
     
         $log->print(0);
-        my $log_entry = $log->info("print(0) disables printing and returns the entry");
+        my $log_entry = $log->info("print disabled");
+    
+        # using a child log
+    
+        my $log = Logging::Simple->new(name => 'main');
+        $log->_0("parent log";
+    
+        testing();
+    
+        sub testing {
+            $log = $log->child('testing');
+            $log->_4("child log");
+        }
+        __END__
+        [2016-04-21 16:31:30.039][lvl 0][main] parent log
+        [2016-04-21 16:31:30.040][lvl 4][main.testing] child log
 
 DESCRIPTION
 
@@ -49,11 +59,13 @@ DESCRIPTION
     printing or writing to file log type entries based on a configurable
     level (0-7).
 
+    Instead of named log facility methods, it uses numbers instead,
+    preventing you from having to remember name to number mapping.
+
     It provides the ability to programmatically change which output tags to
-    display, provides numbered methods so you don't have to remember the
-    name to number level translation, provides the ability to create
-    descendent children, easily enable/disable file output, levels, display
-    etc.
+    display, provides the ability to create descendent children, easily
+    enable/disable file output, levels, display etc. with the ability to
+    provide custom labels.
 
  Logging entry format
 
@@ -61,40 +73,11 @@ DESCRIPTION
     the facility, the name (if specified in the constructor) and finally
     the actual log entry message.
 
-        [2016-03-17 17:01:21.959][info][whatever] info facility, example output
+        [2016-03-17 17:01:21.959][lvl 6][whatever] $log->_6() example output
 
     All of the above tags can be enabled/disabled programatically at any
     time, and there are others that are not enabled by default. See display
     method for details.
-
- Levels
-
-    Verbosity levels and associated named equivalents:
-
-    -1, disables all levels
-
-    0, 'emergency|emerg'
-
-    1, 'alert'
-
-    2, 'critical|crit'
-
-    3, 'error|err'
-
-    4, 'warning|warn'
-
-    5, 'notice'
-
-    6, 'info'
-
-    7, 'debug'
-
-    Note that all named level methods have an associated _N method, so you
-    don't have to remember the names at all. Using the numbers is often
-    much easier.
-
-    Setting the level will display all messages related to that level and
-    below.
 
 INITIALIZATION METHODS
 
@@ -121,6 +104,10 @@ INITIALIZATION METHODS
     set this with the LS_LEVEL environment variable, at any time. the next
     method call regardless of what it is will set it appropriately.
 
+    You can also send in -1 as a level to disable all levels, or send in
+    the level prepended with a = to log *only* that level (eg:
+    $log-level('=3')>.
+
  file('file.log', 'mode')
 
     By default, we write to STDOUT. Send in the name of a file to write
@@ -142,6 +129,13 @@ INITIALIZATION METHODS
 
     You can also send in 1 to enable all of the tags, or 0 to disable them
     all.
+
+ labels(@list|0)
+
+    Send in a list of eight custom labels. We will map them in order to the
+    levels 0 through 7.
+
+    Send in 0 to disable your custom labels.
 
  custom_display($str|$false)
 
@@ -227,12 +221,12 @@ HELPER METHODS
     These methods may be handy to the end user, but aren't required for
     end-use.
 
- levels('names')
+ levels($level)
 
     Returns the hash of level_num => level_name mapping.
 
-    If the optional string names is sent in, we'll return an array of just
-    the names, in numeric order from lowest to highest.
+    If the optional integer $level is sent in, we'll return the level_name
+    of the level.
 
  timestamp
 

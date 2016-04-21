@@ -1,5 +1,11 @@
 Revision history for Perl extension Logging::Simple
 
+1.00    20160421
+        - removed all mapping to the standard syslog labels
+        - all logging is done by the numbered subs only (_0()-_7())
+        - we now allow custom labels through labels() (closes #22)
+        - cleaned up POD
+
 0.10_01 20160326
         - added t/testrules.yml, for some reason, on some CPAN Testers, the
           tests were being run out of order, effectively breaking them

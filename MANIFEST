@@ -13,7 +13,7 @@ t/03-print.t
 t/04-levels.t
 t/05-display.t
 t/06-dyn_methods.t
-t/07-_level_value.t
+t/07-labels.t
 t/08-_sub_names.t
 t/09-_generate_entry.t
 t/10-child.t
@@ -31,3 +31,4 @@ t/base/two.log
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
+t/testrules.yml

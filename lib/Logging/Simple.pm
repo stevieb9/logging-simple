@@ -7,7 +7,7 @@ use Carp qw(croak confess);
 use POSIX qw(strftime);
 use Time::HiRes qw(time);
 
-our $VERSION = '0.10_01';
+our $VERSION = '1.00';
 
 BEGIN {
 
@@ -165,8 +165,8 @@ sub levels {
     return %levels;
 }
 sub labels {
-    my ($self, @labels) = @_;
-    $self->_levels(@labels);
+    my ($self, $labels) = @_;
+    $self->_levels($labels);
 }
 sub display {
     my $self = shift;
@@ -286,11 +286,11 @@ sub _levels {
 
     if (ref $labels eq 'ARRAY'){
         croak "must supply exactly 8 custom labels\n" if @$labels != 8;
-        my %custom_levels = map {$_ => $labels->[$_]} @$labels;
+        my %custom_levels = map {$_ => $labels->[$_]} (0..7);
         $self->{labels} = \%custom_levels;
     }
 
-    if ($labels && ! ref $labels && $labels == 0 || ! defined $self->{labels}) {
+    if (defined $labels && $labels == 0 || ! defined $self->{labels}) {
         $self->{labels} = {
             0 => 'lvl 0',
             1 => 'lvl 1',
@@ -320,7 +320,7 @@ __END__
 
 =head1 NAME
 
-Logging::Simple - A simple but flexible logging mechanism.
+Logging::Simple - Simple logging with customizable display and labels
 
 =for html
 <a href="http://travis-ci.org/stevieb9/p5-logging-simple"><img src="https://secure.travis-ci.org/stevieb9/p5-logging-simple.png"/>
@@ -332,40 +332,45 @@ Logging::Simple - A simple but flexible logging mechanism.
 
     my $log = Logging::Simple->new(name => 'whatever'); # name is optional
 
-    $log->warning("default level (4)");
+    $log->_4("default level is 4, we'll only print levels 4 and below");
 
-    $log->_4("all levels can be called by number. This is warning()");
-
-    $log->_7("this is debug(). Default level is 4, so this won't print");
+    # change level
 
     $log->level(7);
 
-    $log->debug("same as _7(). It'll print now");
+    # log only a single level
 
     $log->level('=3');
-    $log->_3("with a prepending '=' on level, we'll log this level ONLY");
 
-    $log->fatal("log a message along with confess() output, and terminate");
+    # disable all levels
 
-    $log->level(-1); # disables all levels from doing anything
+    $log->level(-1);
+
+    # log to a file
 
     $log->file('file.log');
-    $log->info("this will go to file");
+    $log->_0("this will go to file");
     $log->file(0); # back to STDOUT
 
-    $log->_6("info facility, example output");
-    #[2016-03-17 16:49:32.491][info][whatever] info facility, example output
-
-    $log->display(0);
-    $log->info("display(0) disables all output but this msg");
-    $log->info("see display() method for disabling, enabling individual tags");
-
-    $log->display(1);
-    $log->info("all tags enabled");
-    #[2016-03-17 16:52:06.356][info][whatever][5689][t/syn.pl|29] all tags enabled
+    # don't print, return instead
 
     $log->print(0);
-    my $log_entry = $log->info("print(0) disables printing and returns the entry");
+    my $log_entry = $log->info("print disabled");
+
+    # using a child log
+
+    my $log = Logging::Simple->new(name => 'main');
+    $log->_0("parent log";
+
+    testing();
+
+    sub testing {
+        $log = $log->child('testing()');
+        $log->_4("child log");
+    }
+    __END__
+    [2016-04-21 16:31:30.039][lvl 0][main] parent log
+    [2016-04-21 16:31:30.040][lvl 4][main.testing()] child log
 
 
 =head1 DESCRIPTION
@@ -373,10 +378,13 @@ Logging::Simple - A simple but flexible logging mechanism.
 Lightweight (core-only) and very simple yet flexible debug tool for printing or
 writing to file log type entries based on a configurable level (0-7).
 
-It provides the ability to programmatically change which output tags to display,
-provides numbered methods so you don't have to remember the name to number
-level translation, provides the ability to create descendent children, easily
-enable/disable file output, levels, display etc.
+Instead of named log facility methods, it uses numbers instead, preventing you
+from having to remember name to number mapping.
+
+It provides the ability to programmatically change which output tags to
+display, provides the ability to create descendent children, easily
+enable/disable file output, levels, display etc. with the ability to provide
+custom labels.
 
 =head2 Logging entry format
 
@@ -384,42 +392,11 @@ By default, log entries appear as such, with a timestamp, the name of the
 facility, the name (if specified in the constructor) and finally the actual
 log entry message.
 
-    [2016-03-17 17:01:21.959][info][whatever] info facility, example output
+    [2016-03-17 17:01:21.959][lvl 6][whatever] $log->_6() example output
 
 All of the above tags can be enabled/disabled programatically at any time, and
 there are others that are not enabled by default. See L<display> method for
 details.
-
-=head2 Levels
-
-Verbosity levels and associated named equivalents:
-
-=over 4
-
-=item   -1, disables all levels
-
-=item   0, 'emergency|emerg'
-
-=item   1, 'alert'
-
-=item   2, 'critical|crit'
-
-=item   3, 'error|err'
-
-=item   4, 'warning|warn'
-
-=item   5, 'notice'
-
-=item   6, 'info'
-
-=item   7, 'debug'
-
-=back
-
-Note that all named level methods have an associated _N method, so you don't
-have to remember the names at all. Using the numbers is often much easier.
-
-Setting the C<level> will display all messages related to that level and below.
 
 =head1 INITIALIZATION METHODS
 
@@ -446,6 +423,9 @@ sent in or not. It can be changed at any time. Note that you can set this with
 the C<LS_LEVEL> environment variable, at any time. the next method call
 regardless of what it is will set it appropriately.
 
+You can also send in C<-1> as a level to disable all levels, or send in the
+level prepended with a C<=> to log *only* that level (eg: C<$log->level('=3')>.
+
 =head2 file('file.log', 'mode')
 
 By default, we write to STDOUT. Send in the name of a file to write there
@@ -466,6 +446,13 @@ In hash param mode, send in any or all of the tags with 1 (enable) or 0
 (disable).
 
 You can also send in 1 to enable all of the tags, or 0 to disable them all.
+
+=head2 labels(@list|0)
+
+Send in a list of eight custom labels. We will map them in order to the levels
+0 through 7.
+
+Send in C<0> to disable your custom labels.
 
 =head2 custom_display($str|$false)
 
