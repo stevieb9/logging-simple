@@ -15,13 +15,13 @@ my $mod = 'Logging::Simple';
 }
 { # default display
     my $log = $mod->new(print => 0);
-    my $msg = $log->_generate_entry(label => 'info', msg => 'test');
-    like ($msg, qr/\[.*?\]\[info\] test/, "default display is correct");
+    my $msg = $log->_generate_entry(label => '_6', msg => 'test');
+    like ($msg, qr/\[.*?\]\[lvl 6\] test/, "default display is correct");
 }
 { # display with name param
     my $log = $mod->new(print => 0, name => $mod);
-    my $msg = $log->_generate_entry(label => 'info', msg => 'test');
-    like ($msg, qr/\[.*?\]\[info\]\[Logging::Simple\] test/, "display with name ok");
+    my $msg = $log->_generate_entry(label => '_6', msg => 'test');
+    like ($msg, qr/\[.*?\]\[lvl 6\]\[Logging::Simple\] test/, "display with name ok");
 }
 done_testing();
 

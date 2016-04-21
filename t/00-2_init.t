@@ -27,14 +27,6 @@ use_ok($mod);
         $i++;
     }
 }
-{ # new() with level (str)
-    my $i = 0;
-    for(qw(emer alert crit err warn notice info debug)) {
-        my $log = $mod->new(level => $_);
-        is ( $log->{level}, $i, "str level $_ is set to $i correctly" );
-        $i++;
-    }
-}
 { # new() with file
     my $fh = File::Temp->new(UNLINK => 1);
     my $fname = $fh->filename;
@@ -68,7 +60,7 @@ use_ok($mod);
     my $warn;
     local $SIG{__WARN__} = sub { $warn = shift; };
 
-    my $msg = $log->info('test');
+    my $msg = $log->_7('test');
 
     is ($warn, undef, "calling a routine on too high of a level ok");
     is ($msg, undef, "...and msg is undef");

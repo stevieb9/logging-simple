@@ -23,17 +23,17 @@ my $mod = 'Logging::Simple';
     my $fn = _fname();
     $log->file($fn);
 
-    $log->_generate_entry(label => 'debug', msg => 'testing print');
+    $log->_generate_entry(label => '_7', msg => 'testing print');
     $log->file(0);
 
     open my $fh, '<', $fn or die $!;
-    like (<$fh>, qr/debug.*testing print/, "print(1) prints log entry");
+    like (<$fh>, qr/lvl 7.*testing print/, "print(1) prints log entry");
     close $fh;
 
     $log->print(0);
 
-    my $msg = $log->_generate_entry(label => 'debug', msg => 'no print');
-    like ($msg, qr/debug.*no print/, "print(0) returns with no print");
+    my $msg = $log->_generate_entry(label => '_7', msg => 'no print');
+    like ($msg, qr/lvl 7.*no print/, "print(0) returns with no print");
 }
 { # print to STDOUT
     my $log = $mod->new(display => 0);

@@ -11,21 +11,11 @@ our $VERSION = '0.10_01';
 
 BEGIN {
 
-    sub _sub_names {
-        my @levels = qw(
-            emergency alert critical
-            error warning notice info debug
-        );
-        my @short = qw(emerg crit err warn);
-        my @nums = qw(_0 _1 _2 _3 _4 _5 _6 _7);
-
-        my @all;
-        push @all, @levels, @short, @nums;
-
-        return \@all;
-    }
-
+    sub _sub_names { return [qw(_0 _1 _2 _3 _4 _5 _6 _7)]; };
     my $sub_names = _sub_names();
+
+    # build the level subs dynamically. The code in this BEGIN block represents
+    # all logging subs
 
     {
         no strict 'refs';
@@ -40,17 +30,12 @@ BEGIN {
 
                 $self->level($ENV{LS_LEVEL}) if defined $ENV{LS_LEVEL};
 
-                if ($sub =~ /^_(\d)$/){
-                    if (defined $self->_log_only){
+                if ($sub =~ /^_(\d)$/) {
+                    if (defined $self->_log_only) {
                         return if $1 != $self->_log_only;
                     }
                     return if $1 > $self->level;
                 }
-                if (defined $self->_log_only){
-                    return if $self->_level_value($sub) != $self->_log_only;
-                }
-
-                return if $self->_level_value($sub) > $self->level;
 
                 my $proc = join '|', (caller(0))[1..2];
 
@@ -59,7 +44,6 @@ BEGIN {
                     proc => $proc,
                     msg => $msg,
                 );
-
                 $self->_generate_entry(%log_entry);
             }
         }
@@ -105,7 +89,6 @@ sub level {
     my ($self, $level) = @_;
 
     my %levels = $self->levels;
-    my %rev = reverse %levels;
 
     $self->{level} = $ENV{LS_LEVEL} if defined $ENV{LS_LEVEL};
     my $lvl;
@@ -114,7 +97,6 @@ sub level {
         $self->{level} = $level;
     }
     elsif (defined $level){
-
         my $log_only;
 
         if ($level =~ /^=/){
@@ -124,12 +106,8 @@ sub level {
         if ($level =~ /^\d$/ && defined $levels{$level}){
             $self->{level} = $level;
         }
-        elsif ($level =~ /^\w{3}/ && defined($lvl = $self->_translate($level))){
-            $self->{level} = $lvl;
-        }
         else {
-            CORE::warn
-                "invalid level $level specified, using default 'warning'/4\n";
+            warn "invalid level $level specified, using default of 4\n";
         }
 
         if ($log_only){
@@ -179,27 +157,20 @@ sub timestamp {
     return $date;
 }
 sub levels {
-    my ($self, $want) = @_;
+    my ($self, $lvl) = @_;
 
     my %levels = (
-        0 => 'emergency',
-        1 => 'alert',
-        2 => 'critical',
-        3 => 'error',
-        4 => 'warning',
-        5 => 'notice',
-        6 => 'info',
-        7 => 'debug',
+        0 => 'lvl 0',
+        1 => 'lvl 1',
+        2 => 'lvl 2',
+        3 => 'lvl 3',
+        4 => 'lvl 4',
+        5 => 'lvl 5',
+        6 => 'lvl 6',
+        7 => 'lvl 7',
     );
 
-    if (defined $want && $want eq 'names'){
-        my @level_list;
-        for (0..7){
-            push @level_list, $levels{$_};
-        }
-        return @level_list;
-    }
-
+    return $levels{$lvl} if defined $lvl;
     return %levels;
 }
 sub display {
@@ -240,12 +211,11 @@ sub display {
 
     for (keys %tags) {
         if (! defined $valid{$_}){
-            CORE::warn "$_ is an invalid tag...skipping\n";
+            warn "$_ is an invalid tag...skipping\n";
             next;
         }
         $self->{display}{$_} = $tags{$_};
     }
-
 
     return %{ $self->{display} };
 }
@@ -276,33 +246,8 @@ sub custom_display {
 }
 sub fatal {
     my ($self, $msg) = @_;
-
     $self->display(1);
     confess("\n" . $self->_0("$msg"));
-}
-sub _level_value {
-    my ($self, $level) = @_;
-
-    if ($level =~ /^_(\d)$/){
-        return $1;
-    }
-    else {
-        return $self->_translate($level);
-    }
-}
-sub _translate {
-    my ($self, $label) = @_;
-
-    my %levels = $self->levels;
-
-    if ($label =~ /^_?(\d)$/){
-        return $levels{$1};
-    }
-    else {
-        my %rev = reverse %levels;
-        my ($lvl) = grep /^$label/, keys %rev;
-        return $rev{$lvl};
-    }
 }
 sub _generate_entry {
     my $self = shift;
@@ -317,9 +262,8 @@ sub _generate_entry {
         croak "_generate_entry() requires a sub/label name as its first param\n";
     }
 
-    if ($label =~ /^_(\d)$/){
-        $label = $self->_translate($1);
-    }
+    $label =~ s/_//;
+    $label = $self->levels($label);
 
     $msg = $msg ? "$msg\n" : "\n";
 
@@ -588,12 +532,12 @@ immediately.
 
 These methods may be handy to the end user, but aren't required for end-use.
 
-=head2 levels('names')
+=head2 levels($level)
 
 Returns the hash of level_num => level_name mapping.
 
-If the optional string C<names> is sent in, we'll return an array of just the
-names, in numeric order from lowest to highest.
+If the optional integer C<$level> is sent in, we'll return the level_name of the
+level.
 
 =head2 timestamp
 

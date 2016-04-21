@@ -6,7 +6,7 @@ use File::Temp;
 use Logging::Simple;
 use Test::More;
 
-is (mkdir('t/working'), 1, "created working dir ok");
+is (mkdir('t/working'), 1, "created working dir ok") if ! -d 't/working';
 
 my $mod = 'Logging::Simple';
 
@@ -24,7 +24,7 @@ my $f4 = 't/working/four.log';
         level      => 7
     );
     $log->display(time => 0);
-    $log->info( 'in parent main' );
+    $log->_6( 'in parent main' );
 
     run();
     run();
@@ -42,22 +42,22 @@ my $f4 = 't/working/four.log';
     sub one {
         my $log = $log->child( 'one' );
         my $x = shift;
-        $log->info( $x );
+        $log->_6( $x );
     }
     sub two {
         my $log = $log->child( 'two' );
         my $x = shift;
-        $log->info( $x );
-        $log->debug( $x );
+        $log->_6( $x );
+        $log->_7( $x );
     }
     sub three {
         my $log = $log->child( 'three' );
-        $log->info( shift );
-        $log->emerg( shift );
+        $log->_6( shift );
+        $log->_0( shift );
     }
     sub four {
         my $log = $log->child( 'four' );
-        $log->info( shift );
+        $log->_6( shift );
         $log->_2( shift );
     }
 }
@@ -70,7 +70,7 @@ my $f4 = 't/working/four.log';
         level      => 7
     );
     $log->display(time => 0);
-    $log->info( 'in parent main' );
+    $log->_6( 'in parent main' );
 
     run1();
 
@@ -88,25 +88,25 @@ my $f4 = 't/working/four.log';
         my $log = $log->child( 'one' );
         $log->file($f1, 'w');
         my $x = shift;
-        $log->info( $x );
+        $log->_6( $x );
     }
     sub two1 {
         my $log = $log->child( 'two' );
         $log->file($f2, 'w');
         my $x = shift;
-        $log->info( $x );
-        $log->debug( $x );
+        $log->_6( $x );
+        $log->_7( $x );
     }
     sub three1 {
         my $log = $log->child( 'three' );
         $log->file($f3, 'w');
-        $log->info( shift );
-        $log->emerg( shift );
+        $log->_6( shift );
+        $log->_0( shift );
     }
     sub four1 {
         my $log = $log->child( 'four' );
         $log->file($f4, 'w');
-        $log->info( shift );
+        $log->_6( shift );
         $log->_2( shift );
     }
 }

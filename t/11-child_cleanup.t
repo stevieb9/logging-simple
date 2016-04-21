@@ -31,7 +31,6 @@ my %files = (f1 => $f1, f2 => $f2, f3 => $f3, p => $parent);
         is ($_, $base[$i], "line $_ in parent/child append file ok");
         $i++;
     }
-
 }
 
 for (keys %files){

@@ -10,24 +10,24 @@ my $mod = 'Logging::Simple';
 {
     my $log = $mod->new;
 
-    my @names = $log->levels( 'names' );
+    my %lvls = $log->levels;
 
-    is ( @names, 8, "levels() returns correct count with 'names' param" );
+    is ( keys %lvls, 8, "levels() returns correct count with 'names' param" );
 
     my %levels = (
-        0 => 'emergency',
-        1 => 'alert',
-        2 => 'critical',
-        3 => 'error',
-        4 => 'warning',
-        5 => 'notice',
-        6 => 'info',
-        7 => 'debug',
+        0 => 'lvl 0',
+        1 => 'lvl 1',
+        2 => 'lvl 2',
+        3 => 'lvl 3',
+        4 => 'lvl 4',
+        5 => 'lvl 5',
+        6 => 'lvl 6',
+        7 => 'lvl 7',
     );
 
     for (0..7){
         is (
-            $names[$_],
+            $lvls{$_},
             $levels{$_},
             "levels() with 'names' param maps $_ to $levels{$_} ok");
     }
