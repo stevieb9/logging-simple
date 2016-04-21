@@ -159,19 +159,14 @@ sub timestamp {
 sub levels {
     my ($self, $lvl) = @_;
 
-    my %levels = (
-        0 => 'lvl 0',
-        1 => 'lvl 1',
-        2 => 'lvl 2',
-        3 => 'lvl 3',
-        4 => 'lvl 4',
-        5 => 'lvl 5',
-        6 => 'lvl 6',
-        7 => 'lvl 7',
-    );
+    my %levels = $self->_levels;
 
     return $levels{$lvl} if defined $lvl;
     return %levels;
+}
+sub labels {
+    my ($self, @labels) = @_;
+    $self->_levels(@labels);
 }
 sub display {
     my $self = shift;
@@ -285,6 +280,29 @@ sub _generate_entry {
     else {
         print $log_entry;
     }
+}
+sub _levels {
+    my ($self, $labels) = @_;
+
+    if (ref $labels eq 'ARRAY'){
+        croak "must supply exactly 8 custom labels\n" if @$labels != 8;
+        my %custom_levels = map {$_ => $labels->[$_]} @$labels;
+        $self->{labels} = \%custom_levels;
+    }
+
+    if ($labels && ! ref $labels && $labels == 0 || ! defined $self->{labels}) {
+        $self->{labels} = {
+            0 => 'lvl 0',
+            1 => 'lvl 1',
+            2 => 'lvl 2',
+            3 => 'lvl 3',
+            4 => 'lvl 4',
+            5 => 'lvl 5',
+            6 => 'lvl 6',
+            7 => 'lvl 7',
+        };
+    }
+    return %{ $self->{labels} };
 }
 sub _log_only {
     my ($self, $level) = @_;
