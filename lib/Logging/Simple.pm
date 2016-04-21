@@ -7,7 +7,7 @@ use Carp qw(croak confess);
 use POSIX qw(strftime);
 use Time::HiRes qw(time);
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 BEGIN {
 
@@ -447,10 +447,10 @@ In hash param mode, send in any or all of the tags with 1 (enable) or 0
 
 You can also send in 1 to enable all of the tags, or 0 to disable them all.
 
-=head2 labels(@list|0)
+=head2 labels($list|0)
 
-Send in a list of eight custom labels. We will map them in order to the levels
-0 through 7.
+Send in an array reference of eight custom labels. We will map them in order to
+the levels 0 through 7.
 
 Send in C<0> to disable your custom labels.
 
@@ -480,53 +480,12 @@ from there.
 
 =head1 LOGGING METHODS
 
-=head2 emergency($msg)
+=head2 levels
 
-Level 0
+All log facilities are called by their corresponing numbered sub, eg:
 
-aka: C<_0()>, C<emerg()>
-
-=head2 alert($msg)
-
-Level 1
-
-aka: C<_1()>
-
-=head2 critical($msg)
-
-Level 2
-
-aka: C<_2()>, C<crit()>
-
-=head2 error($msg)
-
-Level 3
-
-aka: C<_3()>, C<err()>
-
-=head2 warning($msg)
-
-Level 4
-
-aka: C<_4()>, C<warn()>
-
-=head2 notice($msg)
-
-Level 5
-
-aka: C<_5()>
-
-=head2 info($msg)
-
-Level 6
-
-aka: C<_6()>
-
-=head2 debug($msg)
-
-Level 7
-
-aka: C<_7()>
+    $log->_0("level 0 entry");
+    $log->_7("level 7 entry");
 
 =head2 fatal($msg)
 
@@ -541,8 +500,8 @@ These methods may be handy to the end user, but aren't required for end-use.
 
 Returns the hash of level_num => level_name mapping.
 
-If the optional integer C<$level> is sent in, we'll return the level_name of the
-level.
+If the optional integer C<$level> is sent in, we'll return the level_name of
+the level.
 
 =head2 timestamp
 
