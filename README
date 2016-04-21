@@ -36,7 +36,7 @@ SYNOPSIS
         # using a child log
     
         my $log = Logging::Simple->new(name => 'main');
-        $log->_0("parent log";
+        $log->_0("parent log");
     
         testing();
     
@@ -74,7 +74,7 @@ DESCRIPTION
     time, and there are others that are not enabled by default. See display
     method for details.
 
-INITIALIZATION METHODS
+CONFIGURATION METHODS
 
  new(%args)
 
@@ -92,6 +92,10 @@ INITIALIZATION METHODS
     Each of the above parameters have associated methods described below
     with more details.
 
+ name($name)
+
+    Returns the name of the log, if available. Send in a string to set it.
+
  level($num)
 
     Set and return the facility level. Will return the current value with a
@@ -101,7 +105,7 @@ INITIALIZATION METHODS
 
     You can also send in -1 as a level to disable all levels, or send in
     the level prepended with a = to log *only* that level (eg:
-    $log-level('=3')>.
+    $log->level('=3').
 
  file('file.log', 'mode')
 

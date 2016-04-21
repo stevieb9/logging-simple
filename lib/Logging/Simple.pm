@@ -7,7 +7,7 @@ use Carp qw(croak confess);
 use POSIX qw(strftime);
 use Time::HiRes qw(time);
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 BEGIN {
 
@@ -151,7 +151,7 @@ sub name {
     return $self->{name};
 }
 sub timestamp {
-	my $t = time;
+    my $t = time;
     my $date = strftime "%Y-%m-%d %H:%M:%S", localtime $t;
     $date .= sprintf ".%03d", ($t-int($t))*1000; # without rounding
     return $date;
@@ -254,7 +254,7 @@ sub _generate_entry {
 
     my $subs = $self->_sub_names;
     if (! grep { $label eq $_ } @$subs){
-        croak "_generate_entry() requires a sub/label name as its first param\n";
+        croak "_generate_entry() requires a label => sub/label param\n";
     }
 
     $label =~ s/_//;
@@ -360,7 +360,7 @@ Logging::Simple - Simple logging with customizable display and labels
     # using a child log
 
     my $log = Logging::Simple->new(name => 'main');
-    $log->_0("parent log";
+    $log->_0("parent log");
 
     testing();
 
@@ -398,7 +398,7 @@ All of the above tags can be enabled/disabled programatically at any time, and
 there are others that are not enabled by default. See L<display> method for
 details.
 
-=head1 INITIALIZATION METHODS
+=head1 CONFIGURATION METHODS
 
 =head2 new(%args)
 
@@ -416,6 +416,10 @@ are:
 Each of the above parameters have associated methods described below with more
 details.
 
+=head2 name($name)
+
+Returns the name of the log, if available. Send in a string to set it.
+
 =head2 level($num)
 
 Set and return the facility level. Will return the current value with a param
@@ -424,7 +428,8 @@ the C<LS_LEVEL> environment variable, at any time. the next method call
 regardless of what it is will set it appropriately.
 
 You can also send in C<-1> as a level to disable all levels, or send in the
-level prepended with a C<=> to log *only* that level (eg: C<$log->level('=3')>.
+level prepended with a C<=> to log *only* that level (eg:
+C<$log-E<gt>level('=3')>.
 
 =head2 file('file.log', 'mode')
 
