@@ -320,7 +320,8 @@ __END__
 
 =head1 NAME
 
-Logging::Simple - Simple logging with customizable display and labels
+Logging::Simple - Simple debug logging by number, with customizable labels and
+formatting
 
 =for html
 <a href="http://travis-ci.org/stevieb9/p5-logging-simple"><img src="https://secure.travis-ci.org/stevieb9/p5-logging-simple.png"/>
