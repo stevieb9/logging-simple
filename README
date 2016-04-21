@@ -8,12 +8,11 @@ SYNOPSIS
     
         my $log = Logging::Simple->new(name => 'whatever'); # name is optional
     
-        $log->_4("default level (4)");
-        $log->_7("Default level is 4, so this won't print");
+        $log->_4("default level is 4, we'll only print levels 4 and below");
+    
+        # change level
     
         $log->level(7);
-    
-        $log->_7("It'll print now");
     
         # log only a single level
     
@@ -29,10 +28,6 @@ SYNOPSIS
         $log->_0("this will go to file");
         $log->file(0); # back to STDOUT
     
-        # log to a scalar
-    
-        $log->file(\$string);
-    
         # don't print, return instead
     
         $log->print(0);
@@ -46,12 +41,12 @@ SYNOPSIS
         testing();
     
         sub testing {
-            $log = $log->child('testing');
+            $log = $log->child('testing()');
             $log->_4("child log");
         }
         __END__
         [2016-04-21 16:31:30.039][lvl 0][main] parent log
-        [2016-04-21 16:31:30.040][lvl 4][main.testing] child log
+        [2016-04-21 16:31:30.040][lvl 4][main.testing()] child log
 
 DESCRIPTION
 
