@@ -1,29 +1,58 @@
-[info][parent] in parent main
-[info][parent.one] blah
-[info][parent.four] crap
-[critical][parent.four] 
-[info][parent.three] died
-[emerg][parent.three] 
-[info][parent.three] whoops
-[emerg][parent.three] 
-[info][parent.two] two
-[debug][parent.two] two
-[info][parent.two] xxx
-[debug][parent.two] xxx
-[info][parent.three] asdfas
-[emerg][parent.three] 
-[info][parent.one] vbqewqrq
-[info][parent.one] blah
-[info][parent.four] crap
-[critical][parent.four] 
-[info][parent.three] died
-[emerg][parent.three] 
-[info][parent.three] whoops
-[emerg][parent.three] 
-[info][parent.two] two
-[debug][parent.two] two
-[info][parent.two] xxx
-[debug][parent.two] xxx
-[info][parent.three] asdfas
-[emerg][parent.three] 
-[info][parent.one] vbqewqrq
+[lvl 6][parent] in parent main
+[lvl 6][parent.one] blah
+[lvl 6][parent.four] crap
+[lvl 2][parent.four] 
+[lvl 6][parent.three] died
+[lvl 0][parent.three] 
+[lvl 6][parent.three] whoops
+[lvl 0][parent.three] 
+[lvl 6][parent.two] two
+[lvl 7][parent.two] two
+[lvl 6][parent.two] xxx
+[lvl 7][parent.two] xxx
+[lvl 6][parent.three] asdfas
+[lvl 0][parent.three] 
+[lvl 6][parent.one] vbqewqrq
+[lvl 6][parent.one] blah
+[lvl 6][parent.four] crap
+[lvl 2][parent.four] 
+[lvl 6][parent.three] died
+[lvl 0][parent.three] 
+[lvl 6][parent.three] whoops
+[lvl 0][parent.three] 
+[lvl 6][parent.two] two
+[lvl 7][parent.two] two
+[lvl 6][parent.two] xxx
+[lvl 7][parent.two] xxx
+[lvl 6][parent.three] asdfas
+[lvl 0][parent.three] 
+[lvl 6][parent.one] vbqewqrq
+[lvl 6][parent] in parent main
+[lvl 6][parent.one] blah
+[lvl 6][parent.four] crap
+[lvl 2][parent.four] 
+[lvl 6][parent.three] died
+[lvl 0][parent.three] 
+[lvl 6][parent.three] whoops
+[lvl 0][parent.three] 
+[lvl 6][parent.two] two
+[lvl 7][parent.two] two
+[lvl 6][parent.two] xxx
+[lvl 7][parent.two] xxx
+[lvl 6][parent.three] asdfas
+[lvl 0][parent.three] 
+[lvl 6][parent.one] vbqewqrq
+[lvl 6][parent.one] blah
+[lvl 6][parent.four] crap
+[lvl 2][parent.four] 
+[lvl 6][parent.three] died
+[lvl 0][parent.three] 
+[lvl 6][parent.three] whoops
+[lvl 0][parent.three] 
+[lvl 6][parent.two] two
+[lvl 7][parent.two] two
+[lvl 6][parent.two] xxx
+[lvl 7][parent.two] xxx
+[lvl 6][parent.three] asdfas
+[lvl 0][parent.three] 
+[lvl 6][parent.one] vbqewqrq
