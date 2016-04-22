@@ -362,7 +362,7 @@ formatting
     # don't print, return instead
 
     $log->print(0);
-    my $log_entry = $log->info("print disabled");
+    my $log_entry = $log->_2("print disabled");
 
     # using a child log
 
@@ -402,15 +402,15 @@ log entry message.
     [2016-03-17 17:01:21.959][lvl 6][whatever] $log->_6() example output
 
 All of the above tags can be enabled/disabled programatically at any time, and
-there are others that are not enabled by default. See L<display> method for
-details.
+there are others that are not enabled by default. See the C<display()> method
+in L<CONFIGURATION METHODS> for details.
 
 =head1 CONFIGURATION METHODS
 
 =head2 new(%args)
 
-Builds and returns a new C<Logging::Simple> object. All arguments are optional, and
-they can all be set using accessor methods after instantiation. These params
+Builds and returns a new C<Logging::Simple> object. All arguments are optional,
+and they can all be set using accessor methods after instantiation. These params
 are:
 
     name        => $str  # optional, default is undef
@@ -419,9 +419,6 @@ are:
     write_mode  => $str  # defaults to append, other option is 'write'
     print       => $bool # default on, enable/disable output and return instead
     display     => $bool # default on, enable/disable log message tags
-
-Each of the above parameters have associated methods described below with more
-details.
 
 =head2 name($name)
 
