@@ -11,7 +11,7 @@ my $mod = 'Logging::Simple';
     my $log = $mod->new(print => 0);
     my $ok = eval { $log->_generate_entry(label => 'bad'); 1; };
     is ($ok, undef, "croaks with bad label");
-    like ($@, qr/requires a sub/, "...and error msg is ok");
+    like ($@, qr/requires a label/, "...and error msg is ok");
 }
 { # default display
     my $log = $mod->new(print => 0);
