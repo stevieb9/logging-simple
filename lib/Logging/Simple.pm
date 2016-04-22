@@ -364,6 +364,11 @@ formatting
     $log->print(0);
     my $log_entry = $log->_2("print disabled");
 
+    # send in your own log entry labels for the levels. They will be mapped
+    # 0 through 7
+
+    $log->labels([qw(emerg alert crit error warn notice info debug)]);
+
     # using a child log
 
     my $log = Logging::Simple->new(name => 'main');
@@ -460,7 +465,7 @@ You can also send in 1 to enable all of the tags, or 0 to disable them all.
 =head2 labels($list|0)
 
 Send in an array reference of eight custom labels. We will map them in order to
-the levels 0 through 7.
+the levels 0 through 7, and your labels will be displayed in the log entries.
 
 Send in C<0> to disable your custom labels.
 
