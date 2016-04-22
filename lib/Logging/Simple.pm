@@ -396,14 +396,15 @@ custom labels.
 =head2 Logging entry format
 
 By default, log entries appear as such, with a timestamp, the name of the
-facility, the name (if specified in the constructor) and finally the actual
-log entry message.
+facility, the name (if previously set) and finally the actual log entry
+message.
 
-    [2016-03-17 17:01:21.959][lvl 6][whatever] $log->_6() example output
+    [2016-03-17 17:01:21.959][lvl 6][whatever] level 6 example output
 
 All of the above tags can be enabled/disabled programatically at any time, and
-there are others that are not enabled by default. See the C<display()> method
-in L<CONFIGURATION METHODS> for details.
+there are others that are not enabled by default. You can even add your own
+custom tag. See the C<display()> method in L<CONFIGURATION METHODS> for further
+details.
 
 =head1 CONFIGURATION METHODS
 
@@ -494,6 +495,7 @@ from there.
 All log facilities are called by their corresponing numbered sub, eg:
 
     $log->_0("level 0 entry");
+    ...
     $log->_7("level 7 entry");
 
 =head2 fatal($msg)
