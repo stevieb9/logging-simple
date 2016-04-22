@@ -245,6 +245,8 @@ sub fatal {
     confess("\n" . $self->_0("$msg"));
 }
 sub _generate_entry {
+    # builds/formats the log entry line
+
     my $self = shift;
     my %entry = @_;
 
@@ -282,6 +284,8 @@ sub _generate_entry {
     }
 }
 sub _levels {
+    # manages the level labels
+
     my ($self, $labels) = @_;
 
     if (ref $labels eq 'ARRAY'){
@@ -305,6 +309,8 @@ sub _levels {
     return %{ $self->{labels} };
 }
 sub _log_only {
+    # are we logging only one level or not?
+
     my ($self, $level) = @_;
     if (defined $level && $level == -1){
         $self->{log_only} = undef;
