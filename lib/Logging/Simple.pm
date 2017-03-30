@@ -377,7 +377,7 @@ formatting
     testing();
 
     sub testing {
-        $log = $log->child('testing()');
+        my $log = $log->child('testing()');
         $log->_4("child log");
     }
     __END__
@@ -404,7 +404,7 @@ By default, log entries appear as such, with a timestamp, the name of the
 facility, the name (if previously set) and finally the actual log entry
 message.
 
-    [2016-03-17 17:01:21.959][lvl 6][whatever] level 6 example output
+    [2016-03-17 17:01:21.959][lvl 6][whatever] example output
 
 All of the above tags can be enabled/disabled programatically at any time, and
 there are others that are not enabled by default. You can even add your own
