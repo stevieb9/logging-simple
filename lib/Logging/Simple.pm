@@ -140,7 +140,7 @@ sub file {
     $mode = 'a' if ! defined $mode;
     my $op = $mode =~ /^a/ ? '>>' : '>';
 
-    open $self->{fh}, $op, $file or die "can't open log file for writing: $!";
+    open $self->{fh}, $op, $file or croak "can't open log file for writing: $!";
     $self->{file} = $file;
 
     return $self->{file};
@@ -505,7 +505,7 @@ All log facilities are called by their corresponing numbered sub, eg:
 
 =head2 fatal($msg)
 
-Log the message, along with the trace C<confess()> produces, and die
+Log the message, along with the trace C<confess()> produces, and croak's
 immediately.
 
 =head1 HELPER METHODS
