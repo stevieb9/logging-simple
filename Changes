@@ -1,5 +1,9 @@
 Revision history for Perl extension Logging::Simple
 
+1.03    2017-03-30
+        - PR merged that fixed the repository name in Makefile.PL (thanks
+          Mohammad S Anwar!)
+
 1.02    2017-03-29
         - renamed repo from p5-logging-simple to logging-simple (closes #33)
         - changed the last die() call to croak() (closes #32)
