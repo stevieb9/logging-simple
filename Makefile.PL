@@ -11,12 +11,12 @@ WriteMakefile(
         'meta-spec' => { version => 2 },
         resources   => {
             bugtracker => {
-                web => 'https://github.com/stevieb9/p5-log-simple/issues',
+                web => 'https://github.com/stevieb9/log-simple/issues',
             },
             repository => {
                 type => 'git',
-                url => 'https://github.com/stevieb9/p5-log-simple.git',
-                web => 'https://github.com/stevieb9/p5-log-simple',
+                url => 'https://github.com/stevieb9/log-simple.git',
+                web => 'https://github.com/stevieb9/log-simple',
             },
         },
     },
