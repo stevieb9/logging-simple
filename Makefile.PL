@@ -31,5 +31,5 @@ WriteMakefile(
     PREREQ_PM => {
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean => { FILES => 'File-Edit-Portable-*' },
+    clean => { FILES => 'Logging-Simple-*' },
 );
