@@ -3,7 +3,7 @@ Revision history for Perl extension Logging::Simple
 1.02 UNREL
         - renamed repo from p5-logging-simple to logging-simple (closes #33)
         - changed the last die() call to croak() (closes #32)
-        -
+        - fix broken link in POD (closes #31)
 
 1.01    20160421
         - removed all mapping to the standard syslog labels

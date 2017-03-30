@@ -177,7 +177,7 @@ LOGGING METHODS
 
  fatal($msg)
 
-    Log the message, along with the trace confess() produces, and die
+    Log the message, along with the trace confess() produces, and croak's
     immediately.
 
 HELPER METHODS
@@ -204,11 +204,11 @@ AUTHOR
 BUGS
 
     Please report any bugs or feature requests to
-    https://github.com/stevieb9/p5-logging-simple/issues
+    https://github.com/stevieb9/logging-simple/issues
 
 REPOSITORY
 
-    https://github.com/stevieb9/p5-logging-simple
+    https://github.com/stevieb9/logging-simple
 
 BUILD RESULTS (THIS VERSION)
 

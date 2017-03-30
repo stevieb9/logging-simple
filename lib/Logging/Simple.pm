@@ -330,8 +330,8 @@ Logging::Simple - Simple debug logging by number, with customizable labels and
 formatting
 
 =for html
-<a href="http://travis-ci.org/stevieb9/p5-logging-simple"><img src="https://secure.travis-ci.org/stevieb9/p5-logging-simple.png"/>
-<a href='https://coveralls.io/github/stevieb9/p5-logging-simple?branch=master'><img src='https://coveralls.io/repos/stevieb9/p5-logging-simple/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
+<a href="http://travis-ci.org/stevieb9/logging-simple"><img src="https://secure.travis-ci.org/stevieb9/logging-simple.png"/>
+<a href='https://coveralls.io/github/stevieb9/logging-simple?branch=master'><img src='https://coveralls.io/repos/stevieb9/logging-simple/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
 
 =head1 SYNOPSIS
 
@@ -408,7 +408,7 @@ message.
 
 All of the above tags can be enabled/disabled programatically at any time, and
 there are others that are not enabled by default. You can even add your own
-custom tag. See the C<display()> method in L<CONFIGURATION METHODS> for further
+custom tag. See the C<display()> method in L</CONFIGURATION METHODS> for further
 details.
 
 =head1 CONFIGURATION METHODS
@@ -530,11 +530,11 @@ Steve Bertrand, C<< <steveb at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-L<https://github.com/stevieb9/p5-logging-simple/issues>
+L<https://github.com/stevieb9/logging-simple/issues>
 
 =head1 REPOSITORY
 
-L<https://github.com/stevieb9/p5-logging-simple>
+L<https://github.com/stevieb9/logging-simple>
 
 =head1 BUILD RESULTS (THIS VERSION)
 
