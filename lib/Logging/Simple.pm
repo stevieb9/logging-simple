@@ -359,6 +359,11 @@ formatting
     $log->_0("this will go to file");
     $log->file(0); # back to STDOUT
 
+    # log to a "memory file"
+
+    my $memfile;
+    $log->file(\$memfile);
+
     # don't print, return instead
 
     $log->print(0);
