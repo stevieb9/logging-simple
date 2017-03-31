@@ -1,5 +1,9 @@
 Revision history for Perl extension Logging::Simple
 
+1.04    2017-03-31
+        - applied another PR from Mohammad Anwar that corrects another one of my
+          oversights in the Makefile.PL (thanks again!)
+
 1.03    2017-03-30
         - PR merged that fixed the repository name in Makefile.PL (thanks
           Mohammad S Anwar!)
